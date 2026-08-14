@@ -752,5 +752,20 @@ window.YS_GALLERY = [
     "detail": "Web preview; production original retained locally",
     "modified": "2025-08-02",
     "note": "Image from the Yesterday’s Son Archive folder. Prompt and approval notes can be added as the production record develops."
+  },
+  {
+    "id": "YS-076",
+    "type": "video",
+    "extension": "youtube",
+    "title": "The Loneliest Man — Early Animatic",
+    "filename": "YouTube 4mZFqxCGZi8",
+    "src": "https://www.youtube.com/watch?v=4mZFqxCGZi8",
+    "embed": "https://www.youtube-nocookie.com/embed/4mZFqxCGZi8",
+    "source": "YouTube",
+    "size": "External link",
+    "detail": "Earlier animatic / visual-development reference",
+    "modified": "2025",
+    "external": true,
+    "note": "Earlier visual cut preserved as an animatic reference for the upcoming Yesterday's Son music video."
   }
 ];
