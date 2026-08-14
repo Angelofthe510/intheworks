@@ -13,6 +13,7 @@
 
   function mediaMarkup(asset, context = "card") {
     if (asset.type === "image") return `<img src="${escape(asset.src)}" alt="${escape(asset.title)}" loading="${context === "card" ? "lazy" : "eager"}">`;
+    if (asset.type === "video" && context === "detail" && asset.embed) return `<iframe src="${escape(asset.embed)}" title="${escape(asset.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
     if (asset.type === "video" && context === "detail") return `<video src="${escape(asset.src)}" controls preload="metadata"></video>`;
     if (asset.type === "audio" && context === "detail") return `<div class="audio-player"><span class="media-icon">♪</span><strong>${escape(asset.title)}</strong><audio src="${escape(asset.src)}" controls preload="metadata"></audio></div>`;
     if (asset.type === "document" && context === "detail" && asset.extension === "pdf") return `<iframe src="${escape(asset.src)}" title="${escape(asset.title)}"></iframe>`;
@@ -61,7 +62,7 @@
     $("selected-link").textContent = asset.src;
     $("download-button").href = asset.src;
     $("open-button").href = asset.src;
-    $("download-button").classList.remove("disabled");
+    $("download-button").classList.toggle("disabled", Boolean(asset.external));
     $("open-button").classList.remove("disabled");
     if (scroll) $("selected-asset").scrollIntoView({behavior:"smooth",block:"start"});
   }
