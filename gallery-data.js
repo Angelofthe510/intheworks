@@ -767,57 +767,5 @@ window.YS_GALLERY = [
     "modified": "2025",
     "external": true,
     "note": "Earlier visual cut preserved as an animatic reference for the upcoming Yesterday's Son music video."
-  },
-  {
-    "id": "YS-077",
-    "type": "video",
-    "extension": "mp4",
-    "title": "Firefly Treatment 1 — Alternate 1",
-    "filename": "FIRE-1.mp4",
-    "src": "project-files/video/firefly-intros/FIRE-1.mp4",
-    "source": "Adobe Firefly",
-    "size": "12.9 MB",
-    "detail": "35-second Treatment 1 cold-open music test",
-    "modified": "2026-08-18",
-    "note": "Firefly-generated Treatment 1 intro candidate retained for team review against the Yesterday's Son opera cold-open animatic."
-  },
-  {
-    "id": "YS-078",
-    "type": "video",
-    "extension": "mp4",
-    "title": "Firefly Treatment 1 — Alternate 2",
-    "filename": "FIRE-2.mp4",
-    "src": "project-files/video/firefly-intros/FIRE-2.mp4",
-    "source": "Adobe Firefly",
-    "size": "12.9 MB",
-    "detail": "35-second Treatment 1 cold-open music test",
-    "modified": "2026-08-18",
-    "note": "Firefly-generated Treatment 1 intro candidate retained for team review against the Yesterday's Son opera cold-open animatic."
-  },
-  {
-    "id": "YS-079",
-    "type": "video",
-    "extension": "mp4",
-    "title": "Firefly Treatment 1 — Alternate 3",
-    "filename": "FIRE-3.mp4",
-    "src": "project-files/video/firefly-intros/FIRE-3.mp4",
-    "source": "Adobe Firefly",
-    "size": "12.9 MB",
-    "detail": "35-second Treatment 1 cold-open music test",
-    "modified": "2026-08-18",
-    "note": "Firefly-generated Treatment 1 intro candidate retained for team review against the Yesterday's Son opera cold-open animatic."
-  },
-  {
-    "id": "YS-080",
-    "type": "video",
-    "extension": "mp4",
-    "title": "Firefly Treatment 1 — Alternate 4",
-    "filename": "FIRE-4.mp4",
-    "src": "project-files/video/firefly-intros/FIRE-4.mp4",
-    "source": "Adobe Firefly",
-    "size": "12.9 MB",
-    "detail": "35-second Treatment 1 cold-open music test",
-    "modified": "2026-08-18",
-    "note": "Firefly-generated Treatment 1 intro candidate retained for team review against the Yesterday's Son opera cold-open animatic."
   }
 ];
