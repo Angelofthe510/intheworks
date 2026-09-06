@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Online viewer for the complete 7:33 Yesterday's Son opera storyboard.">
+  <title>Opera Storyboard — Yesterday’s Son</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .storyboard-shell{width:min(1800px,calc(100% - 36px));margin:0 auto;padding:54px 0 100px}
+    .storyboard-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:30px}
+    .storyboard-heading h1{font-size:clamp(2.8rem,6vw,6rem);letter-spacing:-.06em;line-height:.9;margin:0}
+    .storyboard-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .storyboard-tools{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+    .storyboard-tools input{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:999px;color:var(--ink);padding:12px 18px;font:inherit}
+    .storyboard-count{color:var(--muted);font-size:.85rem;white-space:nowrap}
+    .table-frame{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:var(--shadow);max-height:72vh}
+    table{width:100%;border-collapse:collapse;min-width:1800px;font-size:.82rem}
+    th,td{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{position:sticky;top:0;z-index:2;background:#182136;color:#dce7ff;letter-spacing:.05em;text-transform:uppercase;font-size:.68rem}
+    td:first-child,th:first-child{position:sticky;left:0;z-index:1;background:#121a2a;font-weight:800;color:var(--blue);white-space:nowrap}
+    th:first-child{z-index:3;background:#182136}
+    tr:hover td{background:#182238}tr:hover td:first-child{background:#1e2d48}
+    .loading,.error{padding:42px;color:var(--muted)}
+    @media(max-width:760px){.storyboard-heading{align-items:start;flex-direction:column}.storyboard-tools{align-items:stretch;flex-direction:column}.storyboard-actions .button{width:100%}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="../a-lonely-opera/index.html">← A Lonely Opera</a><span class="header-note">Online Storyboard</span></header>
+  <main class="storyboard-shell">
+    <section class="storyboard-heading">
+      <div><p class="eyebrow">53 stable shot IDs · 7:33</p><h1>Complete Opera Storyboard</h1><p class="intro">Browse the full cue sheet here. Downloads are optional and clearly separated.</p></div>
+      <div class="storyboard-actions">
+        <a class="button secondary" href="YS_OPERA_STORYBOARD_v004_COMPLETE_7m33.csv" download>Download CSV</a>
+        <a class="button secondary" href="YS_OPERA_STORYBOARD_v004_COMPLETE_7m33.xlsx" download>Download workbook</a>
+      </div>
+    </section>
+    <div class="storyboard-tools"><label class="sr-only" for="storyboard-search">Search storyboard</label><input id="storyboard-search" type="search" placeholder="Search shot, movement, character, status…"><span class="storyboard-count" id="storyboard-count">Loading storyboard…</span></div>
+    <div class="table-frame"><table id="storyboard-table"><thead></thead><tbody><tr><td class="loading">Loading the complete shot list…</td></tr></tbody></table></div>
+  </main>
+  <footer><a href="../yesterdays-son/index.html">Yesterday’s Son</a><span>Storyboard v004 · online viewer</span></footer>
+  <script>
+    (() => {
+      const source = "YS_OPERA_STORYBOARD_v004_COMPLETE_7m33.csv";
+      const table = document.querySelector("#storyboard-table");
+      const thead = table.querySelector("thead");
+      const tbody = table.querySelector("tbody");
+      const search = document.querySelector("#storyboard-search");
+      const count = document.querySelector("#storyboard-count");
+      let records = [];
+
+      const parseCSV = (text) => {
+        const rows = []; let row = []; let field = ""; let quoted = false;
+        for (let i = 0; i < text.length; i += 1) {
+          const char = text[i];
+          if (quoted && char === '"' && text[i + 1] === '"') { field += '"'; i += 1; }
+          else if (char === '"') quoted = !quoted;
+          else if (char === "," && !quoted) { row.push(field); field = ""; }
+          else if ((char === "\n" || char === "\r") && !quoted) {
+            if (char === "\r" && text[i + 1] === "\n") i += 1;
+            row.push(field); if (row.some(Boolean)) rows.push(row); row = []; field = "";
+          } else field += char;
+        }
+        if (field || row.length) { row.push(field); rows.push(row); }
+        return rows;
+      };
+
+      const cell = (tag, value) => { const node = document.createElement(tag); node.textContent = value; return node; };
+      const render = () => {
+        const term = search.value.trim().toLowerCase();
+        const visible = records.filter((row) => row.join(" ").toLowerCase().includes(term));
+        tbody.replaceChildren(...visible.map((row) => { const tr = document.createElement("tr"); row.forEach((value) => tr.append(cell("td", value))); return tr; }));
+        count.textContent = `${visible.length} of ${records.length} shots`;
+      };
+
+      fetch(source).then((response) => { if (!response.ok) throw new Error("Storyboard unavailable"); return response.text(); }).then((text) => {
+        const [headers, ...rows] = parseCSV(text); records = rows;
+        const tr = document.createElement("tr"); headers.forEach((value) => tr.append(cell("th", value))); thead.replaceChildren(tr);
+        render(); search.addEventListener("input", render);
+      }).catch(() => {
+        tbody.innerHTML = '<tr><td class="error">The online table could not load. You can still use the download buttons above, or reopen this page through the published website.</td></tr>';
+        count.textContent = "Viewer unavailable";
+      });
+    })();
+  </script>
+</body>
+</html>
