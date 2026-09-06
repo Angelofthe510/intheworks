@@ -11,18 +11,33 @@
     .storyboard-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:30px}
     .storyboard-heading h1{font-size:clamp(2.8rem,6vw,6rem);letter-spacing:-.06em;line-height:.9;margin:0}
     .storyboard-actions{display:flex;gap:10px;flex-wrap:wrap}
-    .storyboard-tools{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+    .storyboard-tools{display:flex;align-items:center;gap:14px;margin:0 0 18px;flex-wrap:wrap}
     .storyboard-tools input{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:999px;color:var(--ink);padding:12px 18px;font:inherit}
     .storyboard-count{color:var(--muted);font-size:.85rem;white-space:nowrap}
+    .match-summary{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:12px;margin:0 0 18px}
+    .summary-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--panel);color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .summary-card strong{font-size:1.35rem;color:var(--ink);letter-spacing:0}
+    .summary-card.matched{border-color:#315b50}.summary-card.rough{border-color:#66552e}.summary-card.archive{border-color:#614053}
+    .match-filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-button{border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);padding:10px 14px;cursor:pointer;font:inherit;font-size:.82rem;font-weight:800}
+    .filter-button:hover,.filter-button:focus-visible{border-color:var(--blue);color:var(--ink);outline:none}.filter-button.active{background:var(--blue);border-color:var(--blue);color:#07101f}
     .table-frame{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:var(--shadow);max-height:72vh}
-    table{width:100%;border-collapse:collapse;min-width:1800px;font-size:.82rem}
+    table{width:100%;border-collapse:collapse;min-width:2100px;font-size:.82rem}
     th,td{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
     th{position:sticky;top:0;z-index:2;background:#182136;color:#dce7ff;letter-spacing:.05em;text-transform:uppercase;font-size:.68rem}
     td:first-child,th:first-child{position:sticky;left:0;z-index:1;background:#121a2a;font-weight:800;color:var(--blue);white-space:nowrap}
     th:first-child{z-index:3;background:#182136}
     tr:hover td{background:#182238}tr:hover td:first-child{background:#1e2d48}
+    .match-cell{width:230px;min-width:230px;padding:9px}
+    .scene-thumb{display:block;width:210px;height:118px;overflow:hidden;border-radius:9px;background:#070a12;border:1px solid #33415f;margin-bottom:9px}
+    .scene-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+    .scene-thumb.contact img{width:300%;max-width:none;object-fit:cover;transform:translateX(var(--panel-shift,0))}
+    .match-copy{display:block;color:#d9e1f2;line-height:1.35}
+    .match-state{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border-radius:999px;padding:4px 8px;font-size:.65rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+    .match-state::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+    .match-state.matched{background:#17372f;color:#74deb8}.match-state.rough{background:#3b321b;color:#ffd36b}.match-state.archive{background:#3a2230;color:#ff9cc8}
     .loading,.error{padding:42px;color:var(--muted)}
-    @media(max-width:760px){.storyboard-heading{align-items:start;flex-direction:column}.storyboard-tools{align-items:stretch;flex-direction:column}.storyboard-actions .button{width:100%}}
+    @media(max-width:760px){.storyboard-heading{align-items:start;flex-direction:column}.storyboard-tools{align-items:stretch;flex-direction:column}.storyboard-actions .button{width:100%}.match-summary{grid-template-columns:1fr}.match-filters{width:100%}.filter-button{flex:1}}
   </style>
 </head>
 <body>
@@ -35,7 +50,20 @@
         <a class="button secondary" href="YS_OPERA_STORYBOARD_v004_COMPLETE_7m33.xlsx" download>Download workbook</a>
       </div>
     </section>
-    <div class="storyboard-tools"><label class="sr-only" for="storyboard-search">Search storyboard</label><input id="storyboard-search" type="search" placeholder="Search shot, movement, character, status…"><span class="storyboard-count" id="storyboard-count">Loading storyboard…</span></div>
+    <div class="match-summary" aria-label="Asset and character match summary">
+      <div class="summary-card matched"><span>Matched</span><strong id="matched-count">—</strong></div>
+      <div class="summary-card rough"><span>Rough / refine</span><strong id="rough-count">—</strong></div>
+      <div class="summary-card archive"><span>Archive / match</span><strong id="archive-count">—</strong></div>
+    </div>
+    <div class="storyboard-tools">
+      <label class="sr-only" for="storyboard-search">Search storyboard</label><input id="storyboard-search" type="search" placeholder="Search shot, movement, character, status…">
+      <div class="match-filters" role="group" aria-label="Filter by asset match status">
+        <button class="filter-button active" type="button" data-filter="all">All scenes</button>
+        <button class="filter-button" type="button" data-filter="incomplete">Incomplete only</button>
+        <button class="filter-button" type="button" data-filter="matched">Matched</button>
+      </div>
+      <span class="storyboard-count" id="storyboard-count">Loading storyboard…</span>
+    </div>
     <div class="table-frame"><table id="storyboard-table"><thead></thead><tbody><tr><td class="loading">Loading the complete shot list…</td></tr></tbody></table></div>
   </main>
   <footer><a href="../yesterdays-son/index.html">Yesterday’s Son</a><span>Storyboard v004 · online viewer</span></footer>
@@ -47,7 +75,19 @@
       const tbody = table.querySelector("tbody");
       const search = document.querySelector("#storyboard-search");
       const count = document.querySelector("#storyboard-count");
+      const filterButtons = [...document.querySelectorAll(".filter-button")];
       let records = [];
+      let activeFilter = "all";
+
+      const imageFiles = {
+        1:"opening/YS-OP-001_spock-rear-closeup_v001.jpg",2:"opening/YS-OP-002_tablet-enters-frame_v001.jpg",3:"opening/YS-OP-003_spock-turns_v001.jpg",4:"opening/YS-OP-004_unreal-closeup_v002.jpg",5:"opening/YS-OP-005_fossilized-delta-tablet_v002.jpg",
+        6:"recognition-roughs/YS-OP-006_survey-vessel_RGH-v001.jpg",7:"recognition-roughs/YS-OP-007_delta-alignment_RGH-v001.jpg",8:"recognition-roughs/YS-OP-008_insignia-history_RGH-v001.jpg",9:"recognition-roughs/YS-OP-009_mineral-scan_RGH-v001.jpg",10:"recognition-roughs/YS-OP-010_reflection-delta_RGH-v001.jpg",11:"recognition-roughs/YS-OP-011_observation-port_RGH-v001.jpg",12:"recognition-roughs/YS-OP-012_sarpeidon-coordinate_RGH-v001.jpg",
+        13:"displacement-roughs/YS-OP-013_no-record_RGH-v001.jpg",14:"displacement-roughs/YS-OP-014_kirk-omits-spock_RGH-v001.jpg",15:"displacement-roughs/YS-OP-015_mccoy-log_RGH-v001.jpg",16:"displacement-roughs/YS-OP-016_chapel-nonrecognition_RGH-v001.jpg",17:"displacement-roughs/YS-OP-017_replacement-science-officer_RGH-v001.jpg",18:"displacement-roughs/YS-OP-018_fracture-before-contact_RGH-v001.jpg",19:"displacement-roughs/YS-OP-019_misaligned-spocks_RGH-v001.jpg",
+        20:"parallel-investigation-roughs/YS-OP-020_field-report_RGH-v001.jpg",21:"parallel-investigation-roughs/YS-OP-021_reverse-aging-evidence_RGH-v001.jpg",22:"parallel-investigation-roughs/YS-OP-022_prime-mirror-echo_RGH-v001.jpg",23:"parallel-investigation-roughs/YS-OP-023_zar-temporal-echo_RGH-v001.jpg"
+      };
+      const contactSheets = [
+        [24,26,"YS-OP-024-026_investigation-contact-sheet_RGH-v001.jpg"],[27,29,"YS-OP-027-029_three-universes-contact-sheet_RGH-v001.jpg"],[30,32,"YS-OP-030-032_borg-reveal-contact-sheet_RGH-v001.jpg"],[33,35,"YS-OP-033-035_three-spocks-contact-sheet_RGH-v001.jpg"],[36,38,"YS-OP-036-038_convergence-vulcan-contact-sheet_RGH-v001.jpg"],[39,41,"YS-OP-039-041_amanda-appears-contact-sheet_RGH-v001.jpg"],[42,44,"YS-OP-042-044_human-inheritance-contact-sheet_RGH-v001.jpg"],[45,47,"YS-OP-045-047_decision-contact-sheet_RGH-v001.jpg"],[48,50,"YS-OP-048-050_guardian-contact-sheet_RGH-v001.jpg"],[51,53,"YS-OP-051-053_passage-ending-contact-sheet_RGH-v001.jpg"]
+      ];
 
       const parseCSV = (text) => {
         const rows = []; let row = []; let field = ""; let quoted = false;
@@ -66,17 +106,51 @@
       };
 
       const cell = (tag, value) => { const node = document.createElement(tag); node.textContent = value; return node; };
+      const statusType = (status) => status === "FOUND" ? "matched" : status === "ARCHIVE" ? "archive" : "rough";
+      const statusLabel = (type) => ({matched:"Matched",rough:"Rough — refine",archive:"Archive — match"}[type]);
+      const thumbnailFor = (shotId) => {
+        const shot = Number(shotId.split("-").pop());
+        if (imageFiles[shot]) return {src:`../a-lonely-opera/assets/${imageFiles[shot]}`,panel:0,isContact:false};
+        const sheet = contactSheets.find(([first,last]) => shot >= first && shot <= last);
+        return sheet ? {src:`../a-lonely-opera/assets/completed-storyboard-roughs/${sheet[2]}`,panel:shot-sheet[0],isContact:true} : null;
+      };
+      const matchCell = (row, indexes) => {
+        const td = document.createElement("td"); td.className = "match-cell";
+        const art = thumbnailFor(row[indexes.shot]);
+        if (art) {
+          const frame = document.createElement("span"); frame.className = `scene-thumb${art.isContact ? " contact" : ""}`;
+          if (art.isContact) frame.style.setProperty("--panel-shift",`${art.panel * -33.333}%`);
+          const img = document.createElement("img"); img.src = art.src; img.alt = `${row[indexes.shot]} storyboard thumbnail`; img.loading = "lazy";
+          frame.append(img); td.append(frame);
+        }
+        const copy = document.createElement("span"); copy.className = "match-copy"; copy.textContent = row[indexes.match]; td.append(copy);
+        const type = statusType(row[indexes.status]);
+        const state = document.createElement("span"); state.className = `match-state ${type}`; state.textContent = statusLabel(type); td.append(state);
+        return td;
+      };
       const render = () => {
         const term = search.value.trim().toLowerCase();
-        const visible = records.filter((row) => row.join(" ").toLowerCase().includes(term));
-        tbody.replaceChildren(...visible.map((row) => { const tr = document.createElement("tr"); row.forEach((value) => tr.append(cell("td", value))); return tr; }));
+        const headers = table.dataset.headers.split("\u001f");
+        const indexes = {shot:headers.indexOf("Shot ID"),status:headers.indexOf("Asset Status"),match:headers.indexOf("Asset / Character Match")};
+        const visible = records.filter((row) => {
+          const type = statusType(row[indexes.status]);
+          const filterMatch = activeFilter === "all" || (activeFilter === "incomplete" && type !== "matched") || activeFilter === type;
+          return filterMatch && row.join(" ").toLowerCase().includes(term);
+        });
+        tbody.replaceChildren(...visible.map((row) => { const tr = document.createElement("tr"); row.forEach((value,index) => tr.append(index === indexes.match ? matchCell(row,indexes) : cell("td",value))); return tr; }));
         count.textContent = `${visible.length} of ${records.length} shots`;
       };
 
       fetch(source).then((response) => { if (!response.ok) throw new Error("Storyboard unavailable"); return response.text(); }).then((text) => {
-        const [headers, ...rows] = parseCSV(text); records = rows;
+        const [headers, ...rows] = parseCSV(text); records = rows; table.dataset.headers = headers.join("\u001f");
         const tr = document.createElement("tr"); headers.forEach((value) => tr.append(cell("th", value))); thead.replaceChildren(tr);
+        const statusIndex = headers.indexOf("Asset Status");
+        const totals = records.reduce((result,row) => { result[statusType(row[statusIndex])] += 1; return result; },{matched:0,rough:0,archive:0});
+        document.querySelector("#matched-count").textContent = totals.matched;
+        document.querySelector("#rough-count").textContent = totals.rough;
+        document.querySelector("#archive-count").textContent = totals.archive;
         render(); search.addEventListener("input", render);
+        filterButtons.forEach((button) => button.addEventListener("click",() => { activeFilter = button.dataset.filter; filterButtons.forEach((item) => item.classList.toggle("active",item === button)); render(); }));
       }).catch(() => {
         tbody.innerHTML = '<tr><td class="error">The online table could not load. You can still use the download buttons above, or reopen this page through the published website.</td></tr>';
         count.textContent = "Viewer unavailable";

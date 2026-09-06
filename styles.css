@@ -35,3 +35,6 @@
 
 /* Consistent visual frame around the LCARS console on every display */
 .lcars-register{--lcars-frame-buffer:2em}.lcars-register .lcars-topbar,.lcars-register .lcars-shell,.lcars-register .lcars-footer{padding-left:var(--lcars-frame-buffer);padding-right:var(--lcars-frame-buffer)}
+
+/* Keep the LCARS Song Lab command bar available while reviewing long registers. */
+.lcars-register .lcars-topbar{position:sticky;top:0;z-index:50;background:#000}
