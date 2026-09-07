@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Fred Meets Peaches — Scrolling Slides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; height: 100%; background: #000; color: #fff; }
+
+    /* Snap container */
+    .snap-container { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; }
+    .slide      { scroll-snap-align: start; display: grid; place-items: center; padding: 0; text-align: left; }
+
+    /* ---- 16:9 ratio for ALL sections ---- */
+    .ratio-16x9 { position: relative; width: 100vw; padding-top: 56.25%; overflow: hidden; }
+    .ratio-16x9 > .inner { position: absolute; inset: 0; display: grid; place-items: center; padding: clamp(12px, 2vw, 28px); z-index: 1; }
+    .ratio-16x9::before { content: ""; position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+    /* Background images */
+    .bg-home::before { background-image: url('./fred-img/main-bground.png'); }
+    .bg-s1::before   { background-image: url('./fred-img/s1_bground.png'); }
+    .bg-s2::before   { background-image: url('./fred-img/s2_bground.png'); }
+    .bg-s3::before   { background-image: url('./fred-img/s3_bground.png'); }
+    .bg-cR::before   { background-image: url('./fred-img/cR_bground.jpg'); }
+    .bg-bO::before   { background-image: url('./fred-img/bO_bground.png'); }
+    .bg-LV::before   { background-image: url('./fred-img/LIVE_bground.png'); }
+
+    /* Cover text */
+    .cover-title { font-weight: 800; color: #fff; line-height: 1.05; font-size: clamp(2.8rem, 8vw, 6rem); text-transform: uppercase; text-shadow: 0 6px 24px rgba(0,0,0,.55); margin: 0 0 .25em; }
+    .cover-sub   { color: #fff; font-weight: 800; font-size: clamp(1.1rem, 2.5vw, 1.75rem); text-shadow: 0 4px 16px rgba(0,0,0,.5); display: inline-block; padding: .35rem .6rem; background: rgba(0,0,0,.35); border-radius: .5rem; }
+    .cover-cta .btn { font-weight: 800; }
+
+    /* Content cards */
+    .section-card { background: rgba(255,255,255,.9); color:#111; border-radius: .75rem; box-shadow: 0 10px 24px rgba(0,0,0,.18); padding: 1.25rem; }
+    .section-title { font-weight: 800; margin: 0 0 .75rem; }
+    .ep-title { font-weight: 700; margin: .25rem 0; }
+
+    /* Remove any old borders */
+    h1, h2, h3, h4, h5, h6, .container, .col-sm-12, hr { border: none !important; }
+
+    /* Centered top nav */
+    .slide-nav { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; gap: 1rem; }
+    .slide-nav .btn { font-size: 1.2rem; padding: .6rem 1.2rem; font-weight: 700; }
+    .btn-dark.btn-sm { --bs-btn-bg: rgba(0,0,0,.75); --bs-btn-border-color: rgba(0,0,0,.75); }
+    a:focus, button:focus { outline: 3px solid #ffd24d; outline-offset: 2px; }
+
+    /* 2 column layout on Credit section */
+    .credits-columns { display: flex; flex-wrap: wrap; gap: 2rem; }
+    .credits-columns > div { flex: 1 1 300px; }
+
+    /* ---- Slideshow (inside a 16:9 section) ---- */
+    .slideshow { position: relative; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    .ss-image  { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* Left overlay panel refined layout */
+    .ss-panel { position: absolute; left: 0; top: 0; bottom: 0; width: clamp(84px, 12vw, 160px); background: rgba(0,0,0,0.25); backdrop-filter: blur(2px); display: grid; grid-template-rows: auto 1fr auto auto auto 1fr auto; align-items: center; justify-items: center; padding: 16px 8px; gap: 18px; color: rgba(255,255,255,0.85); text-align: center; user-select: none; }
+    .ss-home,.ss-s1,.ss-label { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.9); }
+    .ss-home { grid-row: 1; align-self: start; font-size: 1.1rem; }
+    #ss-prev  { grid-row: 3; }
+    .ss-label { grid-row: 4; font-size: 1.1rem; opacity: .9; }
+    #ss-next  { grid-row: 5; align-self: start; }
+    .ss-s1    { grid-row: 7; align-self: end; margin-bottom: 10px; }
+
+    .ss-btn { width: clamp(54px, 8vw, 78px); height: clamp(54px, 8vw, 78px); border-radius: 50%; border: 2px solid rgba(255,255,255,.55); background: rgba(255,255,255,.08); color:#fff; font-size: clamp(1.2rem, 3.8vw, 1.8rem); display: grid; place-items: center; cursor: pointer; transition: transform .08s ease, background .15s ease, border-color .15s ease; }
+    .ss-btn:hover { transform: scale(1.04); border-color: #fff; background: rgba(255,255,255,.16); }
+    .ss-btn:active { transform: scale(0.97); }
+
+    #slides h1, #slides h2, #slides h3, #slides h4, #slides h5, #slides h6 { border: none !important; }
+
+    /* Tablet, short landscape, and mobile layouts */
+    @media (max-width: 1100px), (max-height: 760px) {
+      .snap-container { scroll-snap-type: y proximity; }
+      .ratio-16x9 { width: 100%; min-height: 100svh; padding-top: 0; overflow: visible; }
+      .ratio-16x9 > .inner { position: relative; inset: auto; min-height: 100svh; padding: clamp(5.5rem, 10vh, 7rem) clamp(1rem, 3vw, 2rem) 2rem; }
+      .section-card { padding: clamp(1rem, 2.5vw, 1.5rem); }
+      .slide-nav { left: 0; right: 0; top: 0; transform: none; max-width: 100%; overflow-x: auto; justify-content: flex-start; gap: .5rem; padding: .65rem; background: linear-gradient(#000 0, rgba(0,0,0,.88) 70%, transparent); scrollbar-width: none; }
+      .slide-nav::-webkit-scrollbar { display: none; }
+      .slide-nav .btn { flex: 0 0 auto; font-size: .9rem; padding: .55rem .9rem; white-space: nowrap; }
+      .slideshow { height: auto; aspect-ratio: 16 / 9; }
+      .ss-image { object-fit: contain; }
+    }
+
+    @media (max-width: 600px) {
+      .snap-container { height: 100svh; scroll-snap-type: none; }
+      .slide { display: block; }
+      .ratio-16x9 { min-height: 100svh; }
+      .ratio-16x9 > .inner { display: flex; align-items: center; min-height: 100svh; padding: 4.75rem .85rem 1.5rem; }
+      .ratio-16x9 > .inner > * { width: 100%; }
+      .cover-title { font-size: clamp(2.15rem, 12vw, 3.4rem); overflow-wrap: normal; }
+      .cover-sub { font-size: clamp(.9rem, 4.2vw, 1.15rem); }
+      .section-card { border-radius: .65rem; box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+      .section-title { font-size: clamp(1.55rem, 8vw, 2.1rem); }
+      .ep-title { font-size: 1rem; }
+      .section-card li,.section-card p { font-size: .92rem; }
+      .slide-nav { gap: .35rem; padding: .5rem; }
+      .slide-nav .btn { font-size: .78rem; padding: .48rem .72rem; }
+      #slides > .inner { min-height: 100svh; padding-left: 0; padding-right: 0; }
+      .slideshow { width: 100%; }
+      .ss-panel { width: clamp(62px, 20vw, 82px); padding: 9px 4px; gap: 8px; }
+      .ss-home,.ss-s1,.ss-label { font-size: .72rem; }
+      .ss-btn { width: 44px; height: 44px; font-size: 1rem; }
+      .credits-columns { gap: 1rem; }
+      .credits-columns > div { flex-basis: 100%; }
+      .row.g-3.mt-4 { margin-top: .5rem !important; }
+      #LV { min-height: 100svh; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top nav (centered). Includes Slides; no Summary. -->
+  <nav class="slide-nav" aria-label="Slide navigation">
+    <a class="btn btn-dark btn-sm" href="#home">Home</a>
+    <a class="btn btn-dark btn-sm" href="#slides">Slides</a>
+    <a class="btn btn-dark btn-sm" href="#s1">Season 1</a>
+    <a class="btn btn-dark btn-sm" href="#s2">Season 2</a>
+    <a class="btn btn-dark btn-sm" href="#s3">Season 3</a>
+    <a class="btn btn-dark btn-sm" href="#cred">Credits</a>
+    <a class="btn btn-dark btn-sm" href="#bO">Bonus</a>
+  </nav>
+
+  <div class="snap-container" id="scroller">
+
+    <!-- HOME -->
+    <section id="home" class="slide ratio-16x9 bg-home" aria-label="Home">
+      <div class="inner">
+        <div class="text-center">
+          <h1 class="cover-title">Fred Meets Peaches</h1>
+          <p class="cover-sub">A Multimedia Series by Angel Rittenburg — © 2024</p>
+          <!-- turning off these three buttons as they are redundent 
+          <div class="cover-cta mt-3">
+            <a class="btn btn-light me-2" href="#s1">Season 1</a>
+            <a class="btn btn-outline-light me-2" href="#s2">Season 2</a>
+            <a class="btn btn-outline-light" href="#s3">Season 3</a>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDESHOW (16:9) -->
+    <section id="slides" class="slide ratio-16x9" aria-label="Slides">
+      <div class="inner">
+        <div class="slideshow" aria-label="Image slideshow">
+          <!-- ✅ corrected path and filename -->
+          <img id="ss-image" class="ss-image" src="./fred-img/slides/slide_01.jpg" alt="Slideshow image 1" />
+          <nav class="ss-panel" aria-label="Slideshow navigation">
+            <a class="ss-home" href="#home">HOME</a>
+            <button id="ss-prev" class="ss-btn" aria-label="Previous"><span aria-hidden="true">◀</span></button>
+            <div class="ss-label">Slides</div>
+            <button id="ss-next" class="ss-btn" aria-label="Next"><span aria-hidden="true">▶</span></button>
+            <a class="ss-s1" href="#s1">S-ONE</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEASON 1 -->
+    <section id="s1" class="slide ratio-16x9 bg-s1" aria-label="Season 1">
+      <div class="inner">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-7">
+              <div class="section-card">
+                <h2 class="section-title" style="color: orangered;">Season 1: Fred Meets Peaches</h2>
+                <h5 class="ep-title">Episode 1: The Daily Grind</h5>
+                <ul class="mb-3">
+                  <li>Fred starts his day with coffee and recalls his first cup in 1971.</li>
+                  <li>Early days at Apple and the progression of his career.</li>
+                  <li>Peaches’ birth and early life at the breeder’s place.</li>
+                </ul>
+                <h5 class="ep-title">Episode 2: New Beginnings</h5>
+                <ul class="mb-3">
+                  <li>Mauve’s modeling and the Coffee Shop on the Apple Campus.</li>
+                  <li>Fred is hired by Apple and settles into his role.</li>
+                  <li>Peaches grows up, interacting with people.</li>
+                </ul>
+                <h5 class="ep-title">Episode 3: College Days</h5>
+                <ul class="mb-0">
+                  <li>Fred’s interest in Functionary Systems Implementation Dynamic Science.</li>
+                  <li>Scenes from Community College.</li>
+                  <li>Playful, growing scenes of Peaches.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="section-card">
+                <h5 class="ep-title">Episode 4: Connections</h5>
+                <ul class="mb-3">
+                  <li>Jenny and Jerry’s backstory and ties to Fred.</li>
+                  <li>Fred’s high school crush on Evelyn and her funeral.</li>
+                  <li>Peaches’ interactions making people happy.</li>
+                </ul>
+                <h5 class="ep-title">Episode 5: Fred Meets Peaches, Part 1</h5>
+                <ul class="mb-0">
+                  <li>Build-up to Fred walking into the bar.</li>
+                  <li>The morning Fred lost Winona; preparing her favorite tea.</li>
+                  <li>Fred enters the bar and greets Jerry.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Links / Downloads -->
+          <div class="row g-3 mt-4">
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Series Treatment</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Episode Guide</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Press Kit</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#cred">Credits</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEASON 2 -->
+    <section id="s2" class="slide ratio-16x9 bg-s2" aria-label="Season 2">
+      <div class="inner">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-7">
+              <div class="section-card">
+                <h2 class="section-title" style="color: rgb(45, 111, 233);">Season 2: Budding Relationship</h2>
+                <h5 class="ep-title">Episode 1: Fred Meets Peaches, Part 2</h5>
+                <ul class="mb-3">
+                  <li>Fred settles into the bar, greets Jerry.</li>
+                  <li>Flashbacks of heroic and patriotic activities.</li>
+                  <li>Fred and Peaches meet—Karaoke Night focus.</li>
+                </ul>
+                <h5 class="ep-title">Episode 2: Karaoke Night</h5>
+                <ul class="mb-3">
+                  <li>Fred watches Peaches while Jenny MC’s Karaoke Night.</li>
+                  <li>High school flashbacks with Evelyn.</li>
+                  <li>Peaches’ past interactions; Jenny’s connection with her.</li>
+                </ul>
+                <h5 class="ep-title">Episode 3: Mauve and Jenny</h5>
+                <ul class="mb-0">
+                  <li>Exploration of Mauve and Jenny’s connection.</li>
+                  <li>Jenny taking care of Peaches.</li>
+                  <li>Fred’s younger days and interactions with Mauve.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="section-card">
+                <h5 class="ep-title">Episode 4: Jenny and Jerry</h5>
+                <ul class="mb-3">
+                  <li>Overlapping past; how they met Fred.</li>
+                  <li>Peaches making people happy; her connection with Jenny.</li>
+                </ul>
+                <h5 class="ep-title">Episode 5: Fred &amp; Jerry’s Connection</h5>
+                <ul class="mb-0">
+                  <li>Exploring their connection and shared past.</li>
+                  <li>Karaoke Night continues; bond with Peaches grows.</li>
+                  <li>Cliffhanger to Season 3.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Links / Downloads -->
+          <div class="row g-3 mt-4">
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Series Treatment</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Episode Guide</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Press Kit</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#cred">Credits</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEASON 3 -->
+    <section id="s3" class="slide ratio-16x9 bg-s3" aria-label="Season 3">
+      <div class="inner">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-7">
+              <div class="section-card">
+                <h2 class="section-title" style="color: red;">Season 3: Road Trip</h2>
+                <h5 class="ep-title">Episode 1: The Journey Begins</h5>
+                <ul class="mb-3">
+                  <li>Road trip to visit people from Fred’s past.</li>
+                  <li>Looking for trees for Peaches; truly to mend relationships.</li>
+                  <li>Fred’s thoughts about the visits.</li>
+                </ul>
+                <h5 class="ep-title">Episode 2: High School Reunion</h5>
+                <ul class="mb-3">
+                  <li>Sees a friend after 50 years.</li>
+                  <li>Flashbacks to their high school days and impact.</li>
+                </ul>
+                <h5 class="ep-title">Episode 3: The Scientist Cousin</h5>
+                <ul class="mb-0">
+                  <li>Cousin relocates to LA after 30 years in Antarctica.</li>
+                  <li>Reminisce about childhood; discuss current lives.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="section-card">
+                <h5 class="ep-title">Episode 4: The Mentor’s Apology</h5>
+                <ul class="mb-3">
+                  <li>Ailing 88-year-old mentor apologizes for the 33-year separation.</li>
+                  <li>Flashbacks to their time together; reason for separation.</li>
+                </ul>
+                <h5 class="ep-title">Episode 5: Grandpa &amp; Grandma</h5>
+                <ul class="mb-3">
+                  <li>Visits gravesite of his paternal grandfather (a father figure).</li>
+                  <li>Flashbacks to time with his grandfather; lasting impact.</li>
+                  <li>Ends at his son’s doorstep, ringing the bell.</li>
+                </ul>
+                <h5 class="ep-title">Episode 6: The Other Side</h5>
+                <ul class="mb-0">
+                  <li>Told from Fred’s son’s perspective (live action).</li>
+                  <li>Similarities between father and son; open ending.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Links / Downloads -->
+          <div class="row g-3 mt-4">
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Series Treatment</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Episode Guide</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#">Press Kit</a></div>
+            <div class="col-md-3"><a class="btn btn-outline-dark w-100" href="#cred">Credits</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREDITS -->
+    <section id="cred" class="slide ratio-16x9 bg-cR" aria-label="Credits">
+    <div class="inner">
+      <div class="container">
+        <div class="section-card">
+          <h2 class="section-title" style="color: rgb(45, 111, 233)">Credits</h2>
+          <div class="credits-columns">
+            <div>
+              <h5 class="ep-title">Main Cast</h5>
+              <ul>
+                <li>Fred: [Actor Name]</li>
+                <li>Peaches (voice): [Voice Actor Name]</li>
+                <li>Jenny: [Actor Name]</li>
+                <li>Jerry: [Actor Name]</li>
+                <li>Mauve: [Actor Name]</li>
+                <li>Evelyn: [Actor Name]</li>
+                <li>Fred's Son: [Actor Name]</li>
+                <li>Additional Cast: [Names]</li>
+                <li>Peaches: Fred Flintstone</li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="ep-title">Production Team</h5>
+              <ul>
+                <li>Creator/Writer/Producer: Angel Rittenburg</li>
+                <li>Director: [Name]</li>
+                <li>Director of Photography: [Name]</li>
+                <li>Editor: [Name]</li>
+                <li>Sound Design: [Name]</li>
+                <li>Music Composer: [Name]</li>
+                <li>Costume Designer: [Name]</li>
+                <li>Production Assistants: [Names]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- BONUS -->
+    <section id="bO" class="slide ratio-16x9 bg-bO" aria-label="Bonus: Behind the Scenes">
+      <div class="inner">
+        <div class="container">
+          <div class="section-card">
+            <h2 class="section-title" style="color: orangered;">Bonus: Behind the Scenes</h2>
+            <p>What REALLY happened at the end of the story? Click <a href="#LV">this link to find out</a>!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /.snap-container -->
+
+  <!-- LIVE ACTION BONUS SCENE (outside snap container intentionally) -->
+  <section id="LV" class="slide ratio-16x9 bg-LV" aria-label="Live Action Bonus Scene">
+    <div class="inner">
+      <div class="container">
+        <div class="section-card">
+          <h2 class="section-title">Fred and Son</h2>
+          <p>Placeholder for the live-action bonus scene.</p>
+          <p>© 2024 Fred Meets Peaches. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Snap-to-slide controls -->
+  <script>
+  (() => {
+    const container = document.querySelector('.snap-container');
+    const slides = Array.from(document.querySelectorAll('.slide')).filter(s => container.contains(s));
+    if (!container || !slides.length) return;
+
+    const smoothOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const naturalScroll = () => window.matchMedia('(max-width: 1100px), (max-height: 760px)').matches;
+    const DURATION_MS = 750; let busy = false;
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+    function currentIndex(){ const top = container.scrollTop; let best=0,dist=1/0; slides.forEach((s,i)=>{ const d=Math.abs(s.offsetTop-top); if(d<dist){dist=d;best=i;} }); return best; }
+    function goTo(i){ i=clamp(i,0,slides.length-1); if(busy) return; busy=true; slides[i].scrollIntoView({behavior: smoothOK?'smooth':'auto', block:'start'}); setTimeout(()=>busy=false, DURATION_MS); }
+    const goNext=()=>goTo(currentIndex()+1), goPrev=()=>goTo(currentIndex()-1);
+
+    // In-page anchors should scroll the snap container
+    document.addEventListener('click', (e)=>{ const a=e.target.closest('a[href^="#"]'); if(!a) return; const id=a.getAttribute('href'); if(id.length<2) return; const t=document.querySelector(id); if(!t) return; if(!container.contains(t)) return; e.preventDefault(); const idx=slides.indexOf(t.closest('.slide')); if(idx>=0) goTo(idx); history.replaceState(null,'',id); });
+
+    // One-section wheel
+    container.addEventListener('wheel', (e)=>{ if(naturalScroll() || busy) return; if(Math.abs(e.deltaY)<=Math.abs(e.deltaX)) return; e.preventDefault(); e.deltaY>0?goNext():goPrev(); }, {passive:false});
+
+    // Keys
+    window.addEventListener('keydown', (e)=>{ if(naturalScroll() || busy) return; const k=e.key; if(['ArrowDown','PageDown',' '].includes(k)){ e.preventDefault(); goNext(); } else if(['ArrowUp','PageUp'].includes(k)){ e.preventDefault(); goPrev(); } else if(k==='Home'){ e.preventDefault(); goTo(0);} else if(k==='End'){ e.preventDefault(); goTo(slides.length-1);} });
+
+    // Touch vertical swipe
+    let touchY=null; container.addEventListener('touchstart',e=>{ if(!naturalScroll()&&e.touches&&e.touches.length) touchY=e.touches[0].clientY; },{passive:true});
+    container.addEventListener('touchend',e=>{ if(naturalScroll()||touchY==null||busy) return; const y=(e.changedTouches&&e.changedTouches[0])?e.changedTouches[0].clientY:touchY; const dy=touchY-y; const TH=40; if(Math.abs(dy)>TH){ dy>0?goNext():goPrev(); } touchY=null; });
+
+    window.addEventListener('resize', ()=>{ if(!naturalScroll()&&!busy) goTo(currentIndex()); });
+
+    if(location.hash){ const t=document.querySelector(location.hash); if(t&&container.contains(t)){ const idx=slides.indexOf(t.closest('.slide')); if(idx>=0) setTimeout(()=>goTo(idx),50); }}
+  })();
+  </script>
+
+  <!-- Slideshow controller (expects ./fred-img/slides/slide_01.jpg … slide_22.jpg) -->
+  <script>
+  (() => {
+    const base = './fred-img/slides/';
+    const COUNT = 22;     // you currently have 22 images
+    const HAS_00 = false; // set to true if you add slide_00.jpg later
+
+    // Build list
+    const list = [];
+    if (HAS_00) list.push(base + 'slide_00.jpg');
+    for (let i = 1; i <= COUNT; i++) {
+      list.push(base + `slide_${String(i).padStart(2,'0')}.jpg`);
+    }
+
+    const imgEl  = document.getElementById('ss-image');
+    const prevEl = document.getElementById('ss-prev');
+    const nextEl = document.getElementById('ss-next');
+
+    // Start index: 0 for slide_01 if no 00
+    let index = HAS_00 ? 1 : 0;
+
+    function show(i) {
+      index = (i % list.length + list.length) % list.length;
+      const candidate = list[index];
+
+      const probe = new Image();
+      probe.onload = () => {
+        imgEl.src = candidate;
+        imgEl.alt = `Slideshow image ${index + 1}`;
+        // Preload next
+        const pre = new Image();
+        pre.src = list[(index + 1) % list.length];
+      };
+      probe.onerror = () => {
+        // Skip missing files gracefully
+        show(index + 1);
+      };
+      probe.src = candidate;
+    }
+
+    const next = () => show(index + 1);
+    const prev = () => show(index - 1);
+
+    nextEl.addEventListener('click', next);
+    prevEl.addEventListener('click', prev);
+
+    // Keyboard when slideshow is in view
+    function inView() {
+      const s = document.getElementById('slides');
+      const r = s.getBoundingClientRect();
+      return r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.4;
+    }
+    window.addEventListener('keydown', (e) => {
+      if (!inView()) return;
+      if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); next(); }
+      if (['ArrowLeft','PageUp'].includes(e.key))       { e.preventDefault(); prev(); }
+    });
+
+    // Horizontal swipe
+    let sx=null, sy=null; const TH=40;
+    const area = document.getElementById('slides');
+    area.addEventListener('touchstart', e => { const t=e.touches[0]; sx=t.clientX; sy=t.clientY; }, {passive:true});
+    area.addEventListener('touchend',   e => {
+      if (sx==null) return;
+      const t=e.changedTouches[0];
+      const dx=t.clientX - sx, dy=t.clientY - sy;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > TH) (dx < 0 ? next() : prev());
+      sx = sy = null;
+    });
+
+    // Prevent wheel bubbling while over slideshow
+    area.addEventListener('wheel', e => e.stopPropagation(), {passive:true});
+
+    // Init
+    show(index);
+  })();
+  </script>
+</body>
+</html>
