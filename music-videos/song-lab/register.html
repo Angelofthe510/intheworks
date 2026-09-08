@@ -36,40 +36,47 @@
         <div class="lcars-key" aria-label="Status legend"><span><i class="key-primary"></i>Primary</span><span><i class="key-character"></i>Character</span><span><i class="key-source"></i>Source</span><span><i class="key-pending"></i>Pending</span></div>
       </section>
 
-      <div class="lcars-levels" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
+      <section class="lcars-soundbar" aria-label="Song Lab audio player">
+        <div class="soundbar-display">
+          <canvas id="soundbar-canvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="soundbar-console">
+          <div class="soundbar-readout" aria-live="polite"><span id="soundbar-status">AUDIO READY</span><strong id="soundbar-title">SELECT A TRACK</strong></div>
+          <time id="soundbar-time">00:00 / 00:00</time>
+          <button id="soundbar-toggle" type="button" disabled>PLAY</button>
+          <a class="soundbar-suno" href="https://suno.com/@angelinthebayarea" target="_blank" rel="noopener">SUNO PROFILE</a>
+        </div>
+        <audio id="soundbar-audio" preload="metadata"></audio>
+      </section>
 
       <section class="lcars-bank" aria-labelledby="primary-bank">
         <div class="lcars-section-heading"><span class="lcars-elbow apricot"></span><h2 id="primary-bank">Primary Selections</h2><b>05 RECORDS</b></div>
         <div class="lcars-records">
-          <article class="lcars-record enterprise"><div class="record-index">01</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>The Ballad of the White Starship</h3><p>Original title retained · 3:10</p></div><div class="record-status">PRIMARY</div><a href="https://suno.com/song/13e584ca-1551-432d-bf3e-26d53f483208" target="_blank" rel="noopener">ACCESS AUDIO</a></article>
-          <article class="lcars-record orion"><div class="record-index">02</div><div class="record-main"><span>KIRK / ORION</span><h3>The Heart of a Commander — Disco 1</h3><p>Original: The Heart of a Commander · 3:39</p></div><div class="record-status">PRIMARY DISCO</div><a href="https://suno.com/song/e7fd4033-a1bb-4055-85ae-c814e047d3c1" target="_blank" rel="noopener">ACCESS AUDIO</a></article>
-          <article class="lcars-record borg"><div class="record-index">03</div><div class="record-main"><span>BORG SPOCK</span><h3>A Lonely xB Guy</h3><p>Original title retained · 3:34</p></div><div class="record-status">PRIMARY BORG</div><a href="https://suno.com/song/564e4cde-7f50-44b6-a226-653d9a62eb91" target="_blank" rel="noopener">ACCESS AUDIO</a></article>
-          <article class="lcars-record vulcan"><div class="record-index">04</div><div class="record-main"><span>DANCE LIKE A VULCAN</span><h3>Dance Like a Vulcan</h3><p>Original: Just A Lonely Guy — Dean · 4:14</p></div><div class="record-status">COVER SOURCE</div><a href="https://suno.com/song/73eaccd3-f345-48b7-83f7-26586d4faeb6" target="_blank" rel="noopener">ACCESS AUDIO</a></article>
-          <article class="lcars-record flight"><div class="record-index">05</div><div class="record-main"><span>MEN IN FLIGHT</span><h3>Men in Flight — Hyperdrive Mix</h3><p>Original title retained · 2:21</p></div><div class="record-status">STRONG CANDIDATE</div><a href="https://suno.com/song/d5f091a3-642f-4c12-aa86-53972acba91a" target="_blank" rel="noopener">ACCESS AUDIO</a></article>
+          <article class="lcars-record enterprise"><div class="record-index">01</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>The Ballad of the White Starship</h3><p>Original title retained · 3:10</p></div><div class="record-status">PRIMARY</div><a href="#" data-track-id="13e584ca-1551-432d-bf3e-26d53f483208">ACCESS AUDIO</a></article>
+          <article class="lcars-record orion"><div class="record-index">02</div><div class="record-main"><span>KIRK / ORION</span><h3>The Heart of a Commander — Disco 1</h3><p>Original: The Heart of a Commander · 3:39</p></div><div class="record-status">PRIMARY DISCO</div><a href="#" data-track-id="e7fd4033-a1bb-4055-85ae-c814e047d3c1">ACCESS AUDIO</a></article>
+          <article class="lcars-record borg"><div class="record-index">03</div><div class="record-main"><span>BORG SPOCK</span><h3>A Lonely xB Guy</h3><p>Original title retained · 3:34</p></div><div class="record-status">PRIMARY BORG</div><a href="#" data-track-id="564e4cde-7f50-44b6-a226-653d9a62eb91">ACCESS AUDIO</a></article>
+          <article class="lcars-record vulcan"><div class="record-index">04</div><div class="record-main"><span>DANCE LIKE A VULCAN</span><h3>Dance Like a Vulcan</h3><p>Original: Just A Lonely Guy — Dean · 4:14</p></div><div class="record-status">COVER SOURCE</div><a href="#" data-track-id="73eaccd3-f345-48b7-83f7-26586d4faeb6">ACCESS AUDIO</a></article>
+          <article class="lcars-record flight"><div class="record-index">05</div><div class="record-main"><span>MEN IN FLIGHT</span><h3>Men in Flight — Hyperdrive Mix</h3><p>Original title retained · 2:21</p></div><div class="record-status">STRONG CANDIDATE</div><a href="#" data-track-id="d5f091a3-642f-4c12-aa86-53972acba91a">ACCESS AUDIO</a></article>
         </div>
       </section>
 
       <section class="lcars-bank" aria-labelledby="support-bank">
         <div class="lcars-section-heading"><span class="lcars-elbow lavender"></span><h2 id="support-bank">Supporting Selections</h2><b>14 RECORDS</b></div>
         <div class="lcars-records compact">
-          <article class="lcars-record uhura"><div class="record-index">06</div><div class="record-main"><span>NYOTA UHURA</span><h3>Our Gal Nyota</h3><p>Original: Our Gal Nyola · 4:00</p></div><div class="record-status">REVIEW</div><a href="https://suno.com/song/9c344cd6-f457-4e25-bf4c-47a5de25312e" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record uhura"><div class="record-index">07</div><div class="record-main"><span>NYOTA UHURA</span><h3>A Ballad for Nyota: AfroMoog</h3><p>Original spelling: Nyola · 3:19</p></div><div class="record-status">PORTRAIT</div><a href="https://suno.com/song/50f735b7-4fcb-4e97-8a86-474b99a2434e" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record uhura"><div class="record-index">08</div><div class="record-main"><span>NYOTA UHURA</span><h3>Nyota's Song</h3><p>Original: Nyola's Song · 3:44</p></div><div class="record-status">ALTERNATE</div><a href="https://suno.com/song/cd3a85c0-dae8-48a6-9ecb-799b802c76fd" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record orion"><div class="record-index">09</div><div class="record-main"><span>KIRK / ORION</span><h3>Orion's Baby Daddy</h3><p>Original title retained · 3:30</p></div><div class="record-status">CORNERSTONE</div><a href="https://suno.com/song/6ecabe44-8bc0-4513-ab59-d6454d07150b" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record orion"><div class="record-index">10</div><div class="record-main"><span>KIRK / ORION</span><h3>Captain's Purr-suasion</h3><p>Original title retained · 2:31</p></div><div class="record-status">PERFORMANCE</div><a href="https://suno.com/song/a6b9100e-290f-4e9d-a678-48939002893b" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record borg"><div class="record-index">11</div><div class="record-main"><span>BORG SPOCK</span><h3>A Lonely Borg Guy</h3><p>Original title retained · 2:54</p></div><div class="record-status">ALT SOURCE</div><a href="https://suno.com/song/0ce75703-bd26-48d9-b622-61d0336093af" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record multiverse"><div class="record-index">12</div><div class="record-main"><span>MULTIVERSE</span><h3>A Lonely Disco Guy</h3><p>Original title retained · 4:23</p></div><div class="record-status">DISCO SOURCE</div><a href="https://suno.com/song/1cadffbf-f43b-4ae4-8bcf-122f31eb9a85" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record opera"><div class="record-index">13</div><div class="record-main"><span>OPERA SOURCE</span><h3>A Lonely Guy Dance</h3><p>Original title retained · 4:04</p></div><div class="record-status">VOCAL / LOOP</div><a href="https://suno.com/song/0454d711-c82f-408e-bcd4-b30da14a9fb1" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record ruins"><div class="record-index">14</div><div class="record-main"><span>AIR GUITAR</span><h3>One Lonely Guy [1974 Rock Version]</h3><p>Old Italian ruins cover direction · 3:29</p></div><div class="record-status">PERFORMANCE</div><a href="https://suno.com/song/85398936-f25a-47c4-b0e3-7e9f7c1f5d1a" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record flight"><div class="record-index">15</div><div class="record-main"><span>MEN IN FLIGHT</span><h3>Men in Flight — Dance Wave 1</h3><p>Original: Men in Flight — Dance · 2:37</p></div><div class="record-status">NEW WAVE</div><a href="https://suno.com/song/8952118d-423d-48d6-b78f-2921fb658a8c" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record pending"><div class="record-index">16</div><div class="record-main"><span>UNASSIGNED</span><h3>I Am All of Me</h3><p>Original title retained · 2:53</p></div><div class="record-status">ROLE PENDING</div><a href="https://suno.com/song/8409bcf3-ffb0-4e78-a269-daef9ab4e214" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record pending"><div class="record-index">17</div><div class="record-main"><span>UNASSIGNED</span><h3>A Golden Heart</h3><p>Original title retained · 3:22</p></div><div class="record-status">EDIT SOURCE</div><a href="https://suno.com/song/253819ed-ce37-4820-8a76-a1adb37825be" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record enterprise"><div class="record-index">18</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>BadAss</h3><p>Original: BadAss 1 · 3:50</p></div><div class="record-status">ALT 1701</div><a href="https://suno.com/song/e5ebef74-17fb-49d7-881a-b337435266ca" target="_blank" rel="noopener">AUDIO</a></article>
-          <article class="lcars-record enterprise"><div class="record-index">19</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>BadAss Remix</h3><p>Original title retained · 3:34</p></div><div class="record-status">A/B MIX</div><a href="https://suno.com/song/13468fc9-c882-4e93-847a-5c16dab01bfc" target="_blank" rel="noopener">AUDIO</a></article>
+          <article class="lcars-record uhura"><div class="record-index">06</div><div class="record-main"><span>NYOTA UHURA</span><h3>Our Gal Nyota</h3><p>Original: Our Gal Nyola · 4:00</p></div><div class="record-status">REVIEW</div><a href="#" data-track-id="9c344cd6-f457-4e25-bf4c-47a5de25312e">AUDIO</a></article>
+          <article class="lcars-record uhura"><div class="record-index">07</div><div class="record-main"><span>NYOTA UHURA</span><h3>A Ballad for Nyota: AfroMoog</h3><p>Original spelling: Nyola · 3:19</p></div><div class="record-status">PORTRAIT</div><a href="#" data-track-id="50f735b7-4fcb-4e97-8a86-474b99a2434e">AUDIO</a></article>
+          <article class="lcars-record uhura"><div class="record-index">08</div><div class="record-main"><span>NYOTA UHURA</span><h3>Nyota's Song</h3><p>Original: Nyola's Song · 3:44</p></div><div class="record-status">ALTERNATE</div><a href="#" data-track-id="cd3a85c0-dae8-48a6-9ecb-799b802c76fd">AUDIO</a></article>
+          <article class="lcars-record orion"><div class="record-index">09</div><div class="record-main"><span>KIRK / ORION</span><h3>Orion's Baby Daddy</h3><p>Original title retained · 3:30</p></div><div class="record-status">CORNERSTONE</div><a href="#" data-track-id="6ecabe44-8bc0-4513-ab59-d6454d07150b">AUDIO</a></article>
+          <article class="lcars-record orion"><div class="record-index">10</div><div class="record-main"><span>KIRK / ORION</span><h3>Captain's Purr-suasion</h3><p>Original title retained · 2:31</p></div><div class="record-status">PERFORMANCE</div><a href="#" data-track-id="a6b9100e-290f-4e9d-a678-48939002893b">AUDIO</a></article>
+          <article class="lcars-record borg"><div class="record-index">11</div><div class="record-main"><span>BORG SPOCK</span><h3>A Lonely Borg Guy</h3><p>Original title retained · 2:54</p></div><div class="record-status">ALT SOURCE</div><a href="#" data-track-id="0ce75703-bd26-48d9-b622-61d0336093af">AUDIO</a></article>
+          <article class="lcars-record multiverse"><div class="record-index">12</div><div class="record-main"><span>MULTIVERSE</span><h3>A Lonely Disco Guy</h3><p>Original title retained · 4:23</p></div><div class="record-status">DISCO SOURCE</div><a href="#" data-track-id="1cadffbf-f43b-4ae4-8bcf-122f31eb9a85">AUDIO</a></article>
+          <article class="lcars-record opera"><div class="record-index">13</div><div class="record-main"><span>OPERA SOURCE</span><h3>A Lonely Guy Dance</h3><p>Original title retained · 4:04</p></div><div class="record-status">VOCAL / LOOP</div><a href="#" data-track-id="0454d711-c82f-408e-bcd4-b30da14a9fb1">AUDIO</a></article>
+          <article class="lcars-record ruins"><div class="record-index">14</div><div class="record-main"><span>AIR GUITAR</span><h3>One Lonely Guy [1974 Rock Version]</h3><p>Old Italian ruins cover direction · 3:29</p></div><div class="record-status">PERFORMANCE</div><a href="#" data-track-id="85398936-f25a-47c4-b0e3-7e9f7c1f5d1a">AUDIO</a></article>
+          <article class="lcars-record flight"><div class="record-index">15</div><div class="record-main"><span>MEN IN FLIGHT</span><h3>Men in Flight — Dance Wave 1</h3><p>Original: Men in Flight — Dance · 2:37</p></div><div class="record-status">NEW WAVE</div><a href="#" data-track-id="8952118d-423d-48d6-b78f-2921fb658a8c">AUDIO</a></article>
+          <article class="lcars-record pending"><div class="record-index">16</div><div class="record-main"><span>UNASSIGNED</span><h3>I Am All of Me</h3><p>Original title retained · 2:53</p></div><div class="record-status">ROLE PENDING</div><a href="#" data-track-id="8409bcf3-ffb0-4e78-a269-daef9ab4e214">AUDIO</a></article>
+          <article class="lcars-record pending"><div class="record-index">17</div><div class="record-main"><span>UNASSIGNED</span><h3>A Golden Heart</h3><p>Original title retained · 3:22</p></div><div class="record-status">EDIT SOURCE</div><a href="#" data-track-id="253819ed-ce37-4820-8a76-a1adb37825be">AUDIO</a></article>
+          <article class="lcars-record enterprise"><div class="record-index">18</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>BadAss</h3><p>Original: BadAss 1 · 3:50</p></div><div class="record-status">ALT 1701</div><a href="#" data-track-id="e5ebef74-17fb-49d7-881a-b337435266ca">AUDIO</a></article>
+          <article class="lcars-record enterprise"><div class="record-index">19</div><div class="record-main"><span>ENTERPRISE 1701</span><h3>BadAss Remix</h3><p>Original title retained · 3:34</p></div><div class="record-status">A/B MIX</div><a href="#" data-track-id="13468fc9-c882-4e93-847a-5c16dab01bfc">AUDIO</a></article>
         </div>
       </section>
 
@@ -78,13 +85,13 @@
         <p class="style-library-note">Each style remains linked to the generation that established it. Reuse the musical vocabulary; preserve the source title, link, and character-specific vocal notes.</p>
         <nav class="style-link-grid" aria-label="Captured music styles">
           <a href="styles/hyperdrive.html"><span>DOCUMENTED MASTER 01</span><strong>Retro-Future Hyperdrive Dance</strong><small>Open the complete Hyperdrive Style sheet</small></a>
-          <a href="https://suno.com/song/85398936-f25a-47c4-b0e3-7e9f7c1f5d1a" target="_blank" rel="noopener"><span>SOURCE STYLE 02</span><strong>1974 Slapped-Bass Acid Rock</strong><small>Air-guitar performance source</small></a>
-          <a href="https://suno.com/song/564e4cde-7f50-44b6-a226-653d9a62eb91" target="_blank" rel="noopener"><span>SOURCE STYLE 03</span><strong>Cybernetic Borg Synthpop</strong><small>Robot-voice opening · Borg Spock</small></a>
-          <a href="https://suno.com/song/50f735b7-4fcb-4e97-8a86-474b99a2434e" target="_blank" rel="noopener"><span>SOURCE STYLE 04</span><strong>AfroMoog Character Portrait</strong><small>Nyota Uhura musical palette</small></a>
-          <a href="https://suno.com/song/6ecabe44-8bc0-4513-ab59-d6454d07150b" target="_blank" rel="noopener"><span>SOURCE STYLE 05</span><strong>Orion Jazz-Noir</strong><small>Orion's Baby Daddy cornerstone</small></a>
-          <a href="https://suno.com/song/e7fd4033-a1bb-4055-85ae-c814e047d3c1" target="_blank" rel="noopener"><span>SOURCE STYLE 06</span><strong>Orion Commander Disco</strong><small>Disco 1 primary selection</small></a>
-          <a href="https://suno.com/song/13e584ca-1551-432d-bf3e-26d53f483208" target="_blank" rel="noopener"><span>SOURCE STYLE 07</span><strong>Epic Space Ballad</strong><small>Enterprise 1701 identity</small></a>
-          <a href="https://suno.com/song/73eaccd3-f345-48b7-83f7-26586d4faeb6" target="_blank" rel="noopener"><span>SOURCE STYLE 08</span><strong>Vulcan New-Wave Dance-Pop</strong><small>Deep disciplined lead vocal</small></a>
+          <a href="#" data-track-id="85398936-f25a-47c4-b0e3-7e9f7c1f5d1a"><span>SOURCE STYLE 02</span><strong>1974 Slapped-Bass Acid Rock</strong><small>Air-guitar performance source</small></a>
+          <a href="#" data-track-id="564e4cde-7f50-44b6-a226-653d9a62eb91"><span>SOURCE STYLE 03</span><strong>Cybernetic Borg Synthpop</strong><small>Robot-voice opening · Borg Spock</small></a>
+          <a href="#" data-track-id="50f735b7-4fcb-4e97-8a86-474b99a2434e"><span>SOURCE STYLE 04</span><strong>AfroMoog Character Portrait</strong><small>Nyota Uhura musical palette</small></a>
+          <a href="#" data-track-id="6ecabe44-8bc0-4513-ab59-d6454d07150b"><span>SOURCE STYLE 05</span><strong>Orion Jazz-Noir</strong><small>Orion's Baby Daddy cornerstone</small></a>
+          <a href="#" data-track-id="e7fd4033-a1bb-4055-85ae-c814e047d3c1"><span>SOURCE STYLE 06</span><strong>Orion Commander Disco</strong><small>Disco 1 primary selection</small></a>
+          <a href="#" data-track-id="13e584ca-1551-432d-bf3e-26d53f483208"><span>SOURCE STYLE 07</span><strong>Epic Space Ballad</strong><small>Enterprise 1701 identity</small></a>
+          <a href="#" data-track-id="73eaccd3-f345-48b7-83f7-26586d4faeb6"><span>SOURCE STYLE 08</span><strong>Vulcan New-Wave Dance-Pop</strong><small>Deep disciplined lead vocal</small></a>
         </nav>
       </section>
 
@@ -95,5 +102,6 @@
     </div>
   </main>
   <footer class="lcars-footer"><span>YS MUSIC ARCHIVE</span><a href="../index.html">RETURN TO MUSIC VIDEOS</a><b>END OF REGISTER</b></footer>
+  <script src="soundbar.js"></script>
 </body>
 </html>
