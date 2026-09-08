@@ -2,6 +2,7 @@
   const audio = document.querySelector('#soundbar-audio');
   const canvas = document.querySelector('#soundbar-canvas');
   const toggle = document.querySelector('#soundbar-toggle');
+  const stop = document.querySelector('#soundbar-stop');
   const title = document.querySelector('#soundbar-title');
   const status = document.querySelector('#soundbar-status');
   const time = document.querySelector('#soundbar-time');
@@ -38,6 +39,7 @@
   let waveformData;
   let frame;
   let activeLink;
+  let stopped = false;
 
   const formatTime = (seconds) => {
     if (!Number.isFinite(seconds)) return '00:00';
@@ -112,14 +114,25 @@
   const updateControls = () => {
     const playing = !audio.paused && !audio.ended;
     toggle.textContent = playing ? 'PAUSE' : 'PLAY';
-    status.textContent = playing ? activeLink?.dataset.isAlt === 'true' ? 'NOW PLAYING · ALT' : 'NOW PLAYING' : activeLink ? 'TRACK PAUSED' : 'AUDIO READY';
+    status.textContent = playing ? activeLink?.dataset.isAlt === 'true' ? 'NOW PLAYING · ALT' : 'NOW PLAYING' : activeLink ? stopped ? 'TRACK STOPPED' : 'TRACK PAUSED' : 'AUDIO READY';
     trackLinks.forEach((link) => {
       if (link.classList.contains('is-audio-missing')) return;
       const selected = link === activeLink;
-      link.textContent = selected && playing ? 'PAUSE AUDIO' : 'PLAY AUDIO';
+      link.textContent = selected && playing ? 'STOP AUDIO' : 'PLAY AUDIO';
       link.closest('.lcars-record').classList.toggle('is-playing', selected && playing);
       link.setAttribute('aria-pressed', String(selected && playing));
     });
+    stop.disabled = !activeLink;
+  };
+
+  const stopPlayback = () => {
+    if (!activeLink) return;
+    stopped = true;
+    audio.pause();
+    audio.currentTime = 0;
+    time.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    updateControls();
+    draw();
   };
 
   const selectTrack = async (link) => {
@@ -130,11 +143,12 @@
       if (audio.paused) {
         await prepareAnalyser();
         await audio.play();
-      } else audio.pause();
+      } else stopPlayback();
       return;
     }
 
     activeLink = link;
+    stopped = false;
     title.textContent = nextTitle;
     audio.src = link.href;
     toggle.disabled = false;
@@ -201,15 +215,16 @@
     } else audio.pause();
   });
 
+  stop.addEventListener('click', stopPlayback);
+
   audio.addEventListener('play', () => {
+    stopped = false;
     updateControls();
     draw();
   });
   audio.addEventListener('pause', updateControls);
   audio.addEventListener('ended', () => {
-    audio.currentTime = 0;
-    updateControls();
-    draw();
+    stopPlayback();
   });
   audio.addEventListener('timeupdate', () => {
     time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
