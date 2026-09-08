@@ -12,7 +12,10 @@
   const availableTracks = {
     '0454d711-c82f-408e-bcd4-b30da14a9fb1': '0454d711-c82f-408e-bcd4-b30da14a9fb1.mp3',
     '0ce75703-bd26-48d9-b622-61d0336093af': '0ce75703-bd26-48d9-b622-61d0336093af.mp3',
+    '13468fc9-c882-4e93-847a-5c16dab01bfc': '13468fc9-c882-4e93-847a-5c16dab01bfc.mp3',
+    '13e584ca-1551-432d-bf3e-26d53f483208': '13e584ca-1551-432d-bf3e-26d53f483208.mp3',
     '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85': '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85.mp3',
+    '253819ed-ce37-4820-8a76-a1adb37825be': '253819ed-ce37-4820-8a76-a1adb37825be.mp3',
     '50f735b7-4fcb-4e97-8a86-474b99a2434e': '50f735b7-4fcb-4e97-8a86-474b99a2434e.mp3',
     '564e4cde-7f50-44b6-a226-653d9a62eb91': '0ce75703-bd26-48d9-b622-61d0336093af.mp3',
     '6ecabe44-8bc0-4513-ab59-d6454d07150b': '6ecabe44-8bc0-4513-ab59-d6454d07150b.mp3',
@@ -22,7 +25,10 @@
     '8952118d-423d-48d6-b78f-2921fb658a8c': '8952118d-423d-48d6-b78f-2921fb658a8c.mp3',
     '9c344cd6-f457-4e25-bf4c-47a5de25312e': '9c344cd6-f457-4e25-bf4c-47a5de25312e.mp3',
     'a6b9100e-290f-4e9d-a678-48939002893b': 'a6b9100e-290f-4e9d-a678-48939002893b.mp3',
-    'd5f091a3-642f-4c12-aa86-53972acba91a': 'd5f091a3-642f-4c12-aa86-53972acba91a.mp3'
+    'cd3a85c0-dae8-48a6-9ecb-799b802c76fd': 'cd3a85c0-dae8-48a6-9ecb-799b802c76fd.mp3',
+    'd5f091a3-642f-4c12-aa86-53972acba91a': 'd5f091a3-642f-4c12-aa86-53972acba91a.mp3',
+    'e5ebef74-17fb-49d7-881a-b337435266ca': 'e5ebef74-17fb-49d7-881a-b337435266ca.mp3',
+    'e7fd4033-a1bb-4055-85ae-c814e047d3c1': 'e7fd4033-a1bb-4055-85ae-c814e047d3c1.mp3'
   };
   const substitutions = {
     '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85': 'One Lonely Guy (Remix)',
