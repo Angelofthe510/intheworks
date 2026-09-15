@@ -13,7 +13,8 @@
 .qo-hero h1{font-size:clamp(3.2rem,8vw,7rem);line-height:.88;margin:.15rem 0 .8rem;letter-spacing:-.055em}
 .qo-kicker{text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:800;color:var(--qo-gold)}
 .qo-intro{font-size:1.12rem;line-height:1.65;color:var(--qo-muted);max-width:62ch}
-.status-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.1rem}.status-chip{border:1px solid var(--qo-line);border-radius:999px;padding:.45rem .7rem;font-size:.75rem;color:var(--qo-muted)}.status-chip.ready{color:#c7efd8;border-color:rgba(116,211,155,.45)}
+.status-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.1rem}.status-chip{appearance:none;border:1px solid var(--qo-line);border-radius:999px;padding:.45rem .7rem;font:inherit;font-size:.75rem;color:var(--qo-muted);background:transparent;cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease}.status-chip:hover,.status-chip:focus-visible,.status-chip[aria-expanded=true]{color:var(--qo-ink);background:rgba(78,102,176,.2);border-color:#4e66b0;outline:none}.status-chip.ready{color:#c7efd8;border-color:rgba(116,211,155,.45)}
+.porthole-panel{display:grid;grid-template-columns:92px 1fr auto;gap:1rem;align-items:center;margin-top:1rem;padding:.9rem 1rem;border:1px solid #4e66b0;border-radius:16px;background:#011550;max-width:620px}.porthole-panel[hidden]{display:none}.porthole-window{width:92px;height:92px;border:7px solid #4e66b0;border-radius:50%;padding:4px;background:#000;box-shadow:inset 0 0 0 2px #023be6;overflow:hidden}.porthole-window img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;filter:saturate(.75) brightness(.7)}.porthole-copy{display:grid;gap:.25rem}.porthole-copy strong{font-size:.85rem;letter-spacing:.12em}.porthole-copy span{color:var(--qo-muted);font-size:.82rem;line-height:1.45}.porthole-close{align-self:start;border:1px solid #4e66b0;border-radius:999px;background:transparent;color:var(--qo-ink);padding:.35rem .55rem;cursor:pointer}.porthole-close:hover,.porthole-close:focus-visible{background:#023be6;outline:none}@media(max-width:560px){.porthole-panel{grid-template-columns:64px 1fr}.porthole-window{width:64px;height:64px;border-width:5px}.porthole-close{grid-column:2;justify-self:start}}
 .hero-frame,.asset-card{border-radius:18px;overflow:hidden;background:#05070b;border:1px solid var(--qo-line)}.hero-frame img,.asset-card img{width:100%;display:block}.hero-frame img{aspect-ratio:16/9;object-fit:cover}
 .qo-section{margin-top:3rem}.qo-section-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;border-bottom:1px solid var(--qo-line);padding-bottom:.8rem;margin-bottom:1rem}.qo-section-head h2{margin:.2rem 0 0;font-size:1.7rem}.qo-section-head p{margin:0;color:var(--qo-muted);font-size:.9rem}
 .asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.asset-card{background:var(--qo-panel)}.asset-card img{aspect-ratio:16/9;object-fit:contain;background:#080b10}.asset-copy{padding:1rem 1.1rem 1.15rem}.asset-copy h3{margin:0 0 .4rem;font-size:1.08rem}.asset-copy p{margin:0;color:var(--qo-muted);font-size:.88rem;line-height:1.5}
@@ -30,7 +31,12 @@
     <p class="qo-kicker">Music video · production archive</p>
     <h1>Quiet Orbit</h1>
     <p class="qo-intro">An intimate lounge performance built around ViVa’s piano, Nee-La’s saxophone, St’Vor’s Vulcan bass, and the Bluecoat Lead Singer. This page keeps the recovered source imagery inside the repository instead of depending on temporary chat or external-drive links.</p>
-    <div class="status-row"><span class="status-chip ready">Repository assets loading</span><span class="status-chip">Quartet layout locked</span><span class="status-chip">Originals still being consolidated</span></div>
+    <div class="status-row" aria-label="Archive diagnostics"><button class="status-chip ready" type="button" data-porthole="Repository relay nominal" aria-expanded="false">Repository assets loading</button><button class="status-chip" type="button" data-porthole="Quartet stage marks locked" aria-expanded="false">Quartet layout locked</button><button class="status-chip" type="button" data-porthole="Originals queue active" aria-expanded="false">Originals still being consolidated</button></div>
+    <div class="porthole-panel" data-porthole-panel hidden>
+      <div class="porthole-window"><img src="../project-files/assets/chatgpt/05.jpg" alt="Enterprise bridge view through a circular maintenance porthole"></div>
+      <div class="porthole-copy"><strong>GNDN CONDUIT · 1701</strong><span data-porthole-message>General-purpose service tube · nominal</span></div>
+      <button class="porthole-close" type="button" data-porthole-close aria-label="Close porthole">x</button>
+    </div>
   </div>
   <div class="hero-frame"><img src="assets/archive/viva-hero.png" alt="ViVa performing at the grand piano in the Quiet Orbit lounge"></div>
 </section>
@@ -39,7 +45,7 @@
   <div class="qo-section-head"><div><span class="qo-kicker">Recovered originals</span><h2>Character and performance assets</h2></div><p>Stored directly in the repository</p></div>
   <div class="asset-grid">
     <article class="asset-card"><img src="assets/archive/viva-character-sheet.png" alt="ViVa Deltan pianist character sheet"><div class="asset-copy"><h3>ViVa — Character Sheet</h3><p>Full-resolution Deltan pianist continuity reference.</p></div></article>
-    <article class="asset-card"><img src="assets/archive/viva-wide-reference.webp" alt="Recovered wide reference of ViVa performing at the piano"><div class="asset-copy"><h3>ViVa — Wide Solo Reference</h3><p>Recovered library preview. The full-resolution original remains on the replacement list below.</p></div></article>
+    <article class="asset-card"><img src="assets/archive/viva-wide-solo-audience-v2.png" alt="ViVa performing at the grand piano for a small audience in the Quiet Orbit lounge"><div class="asset-copy"><h3>ViVa — Wide Solo Performance</h3><p>Approved full-resolution audience-view performance still.</p></div></article>
     <article class="asset-card"><img src="assets/archive/nee-la-character-sheet.png" alt="Nee-La Andorian saxophonist character sheet"><div class="asset-copy"><h3>Nee-La — Character Sheet</h3><p>Full-resolution Andorian saxophonist continuity reference.</p></div></article>
     <article class="asset-card"><img src="assets/archive/nee-la-saxophone-hero.png" alt="Nee-La performing with her saxophone in the Quiet Orbit lounge"><div class="asset-copy"><h3>Nee-La — Final Saxophone Hero</h3><p>Approved full-resolution final performance image.</p></div></article>
     <article class="asset-card"><img src="assets/archive/nee-la-placement-markup.png" alt="Marked composition reference for Nee-La performing in the lounge"><div class="asset-copy"><h3>Nee-La — Placement Reference</h3><p>The approved lounge composition notes preserved as a production reference.</p></div></article>
@@ -72,12 +78,31 @@
   <span class="qo-kicker">Replacement inventory</span><h2>Full-resolution originals still needed</h2>
   <p>The previous update only captured small library previews—or no usable file at all—for these locked images. Replacing them will complete the archive without changing the page structure:</p>
   <ul>
-    <li><strong>ViVa:</strong> Wide Solo Shot</li>
     <li><strong>Nee-La:</strong> Long Shot and three approved lounge variations</li>
     <li><strong>The Lounge:</strong> clean rear performance-area image without production markup</li>
   </ul>
 </section>
 </main>
 <footer><a href="../music-videos/index.html">Music Videos</a><span>Quiet Orbit · production archive</span></footer>
+<script>
+(() => {
+  const triggers = [...document.querySelectorAll('[data-porthole]')];
+  const panel = document.querySelector('[data-porthole-panel]');
+  const message = document.querySelector('[data-porthole-message]');
+  const close = document.querySelector('[data-porthole-close]');
+  if (!panel || !message || !close) return;
+  const hide = () => { panel.hidden = true; triggers.forEach((button) => button.setAttribute('aria-expanded', 'false')); };
+  triggers.forEach((button) => button.addEventListener('click', () => {
+    const wasOpen = !panel.hidden && button.getAttribute('aria-expanded') === 'true';
+    triggers.forEach((item) => item.setAttribute('aria-expanded', 'false'));
+    if (wasOpen) return hide();
+    message.textContent = `${button.dataset.porthole} · GNDN service tube online.`;
+    button.setAttribute('aria-expanded', 'true');
+    panel.hidden = false;
+  }));
+  close.addEventListener('click', hide);
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !panel.hidden) hide(); });
+})();
+</script>
 </body>
 </html>

@@ -1,7 +1,14 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A Lonely Opera, the extended Yesterday's Son cinematic opera production."><title>A Lonely Opera — Angel's Project Archive</title><link rel="stylesheet" href="../styles.css"></head>
-<body>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A Lonely Opera, the extended Yesterday's Son cinematic opera production."><title>A Lonely Opera — Angel's Project Archive</title><link rel="stylesheet" href="../styles.css">
+<style>
+  body.lonely-opera-page{background:#000;isolation:isolate}
+  .opera-starfield{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:#000}
+  .lonely-opera-page>.site-header,.lonely-opera-page>.collection-page,.lonely-opera-page>footer{position:relative;z-index:1}
+  @media(prefers-reduced-motion:reduce){.opera-starfield{opacity:.55}}
+</style></head>
+<body class="lonely-opera-page">
+  <canvas class="opera-starfield" id="opera-starfield" aria-hidden="true"></canvas>
   <header class="site-header"><a class="brand" href="../index.html">← All projects</a><span class="header-note">Extended production</span></header>
   <main class="collection-page">
     <section class="hero"><p class="eyebrow">Yesterday’s Son</p><h1>A Lonely Opera</h1><p class="intro">The complete 7:33 cinematic-opera rough pass: 53 stable shot IDs, with the superseded ALT-A branch safely preserved.</p><div class="opera-actions"><a class="button primary" href="../opera-storyboard/index.html" target="_blank" rel="noopener">View complete storyboard online ↗</a></div></section>
@@ -93,6 +100,126 @@
     <aside class="project-note"><strong>This is not the music video.</strong> Opera storyboards, movement maps, opera audio, and opera-specific images belong here. The shorter Yesterday’s Son production—including the intentionally retained Andorian instrumental imagery—remains in the Music Videos collection.</aside>
   </main>
   <footer><a href="../yesterdays-son/index.html">Yesterday’s Son</a><span>A Lonely Opera production</span></footer>
+  <script>
+    (() => {
+      const canvas = document.getElementById("opera-starfield");
+      const context = canvas?.getContext("2d");
+      if (!canvas || !context) return;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const mobileMode = window.matchMedia("(max-width: 700px), (pointer: coarse)");
+      let width = 0;
+      let height = 0;
+      let depth = 0;
+      let stars = [];
+      let frame = 0;
+      let speed = .7;
+      let lastInteraction = 0;
+      let lastPaint = 0;
+      const origin = {x: 0, y: 0};
+      const target = {x: 0, y: 0};
+
+      const resetStar = (star, randomDepth = false) => {
+        star.x = (Math.random() - .5) * width;
+        star.y = (Math.random() - .5) * height;
+        star.z = randomDepth ? Math.random() * depth + 1 : depth;
+        star.previousZ = star.z;
+        star.tint = Math.random() > .72 ? "78,102,176" : "235,241,255";
+      };
+
+      const resize = () => {
+        const ratio = Math.min(window.devicePixelRatio || 1, mobileMode.matches ? 1.5 : 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        depth = Math.max(width, height);
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        origin.x = target.x = width / 2;
+        origin.y = target.y = height / 2;
+        const count = mobileMode.matches ? 85 : Math.round(Math.min(320, Math.max(130, width / 5)));
+        stars = Array.from({length: count}, () => {
+          const star = {};
+          resetStar(star, true);
+          return star;
+        });
+      };
+
+      const drawStill = () => {
+        context.clearRect(0, 0, width, height);
+        stars.forEach((star) => {
+          const x = star.x / star.z * depth + origin.x;
+          const y = star.y / star.z * depth + origin.y;
+          const radius = Math.max(.45, (1 - star.z / depth) * 1.8);
+          context.beginPath();
+          context.arc(x, y, radius, 0, Math.PI * 2);
+          context.fillStyle = `rgba(${star.tint},.68)`;
+          context.fill();
+        });
+      };
+
+      const animate = (time) => {
+        if (document.hidden || reducedMotion.matches) {
+          frame = 0;
+          drawStill();
+          return;
+        }
+        if (mobileMode.matches && time - lastPaint < 33) {
+          frame = requestAnimationFrame(animate);
+          return;
+        }
+        lastPaint = time;
+        const active = time - lastInteraction < 850;
+        speed += ((active ? 8 : .7) - speed) * (active ? .075 : .035);
+        origin.x += (target.x - origin.x) * .045;
+        origin.y += (target.y - origin.y) * .045;
+        context.fillStyle = "rgba(0,0,0,.34)";
+        context.fillRect(0, 0, width, height);
+        context.lineCap = "round";
+
+        stars.forEach((star) => {
+          star.previousZ = star.z;
+          star.z -= speed;
+          if (star.z < 1) resetStar(star);
+          const x = star.x / star.z * depth + origin.x;
+          const y = star.y / star.z * depth + origin.y;
+          const previousX = star.x / star.previousZ * depth + origin.x;
+          const previousY = star.y / star.previousZ * depth + origin.y;
+          if (x < -40 || x > width + 40 || y < -40 || y > height + 40) return resetStar(star);
+          const proximity = 1 - star.z / depth;
+          context.beginPath();
+          context.moveTo(previousX, previousY);
+          context.lineTo(x, y);
+          context.strokeStyle = `rgba(${star.tint},${.2 + proximity * .75})`;
+          context.lineWidth = .45 + proximity * 1.9;
+          context.stroke();
+        });
+        frame = requestAnimationFrame(animate);
+      };
+
+      const steer = (event) => {
+        target.x = event.clientX;
+        target.y = event.clientY;
+        lastInteraction = performance.now();
+      };
+
+      window.addEventListener("resize", resize, {passive: true});
+      window.addEventListener("pointermove", steer, {passive: true});
+      window.addEventListener("pointerdown", steer, {passive: true});
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && !reducedMotion.matches && !frame) frame = requestAnimationFrame(animate);
+      });
+      reducedMotion.addEventListener?.("change", () => {
+        cancelAnimationFrame(frame);
+        frame = reducedMotion.matches ? 0 : requestAnimationFrame(animate);
+        if (reducedMotion.matches) drawStill();
+      });
+      resize();
+      reducedMotion.matches ? drawStill() : frame = requestAnimationFrame(animate);
+    })();
+  </script>
   <script>
     (() => {
       const hoverIsAvailable = window.matchMedia("(hover: hover) and (pointer: fine)");
