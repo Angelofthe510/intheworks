@@ -17,7 +17,7 @@
     '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85': '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85.mp3',
     '253819ed-ce37-4820-8a76-a1adb37825be': '253819ed-ce37-4820-8a76-a1adb37825be.mp3',
     '50f735b7-4fcb-4e97-8a86-474b99a2434e': '50f735b7-4fcb-4e97-8a86-474b99a2434e.mp3',
-    '564e4cde-7f50-44b6-a226-653d9a62eb91': '0ce75703-bd26-48d9-b622-61d0336093af.mp3',
+    '564e4cde-7f50-44b6-a226-653d9a62eb91': '564e4cde-7f50-44b6-a226-653d9a62eb91.mp3',
     '6ecabe44-8bc0-4513-ab59-d6454d07150b': '6ecabe44-8bc0-4513-ab59-d6454d07150b.mp3',
     '73eaccd3-f345-48b7-83f7-26586d4faeb6': '73eaccd3-f345-48b7-83f7-26586d4faeb6.mp3',
     '8409bcf3-ffb0-4e78-a269-daef9ab4e214': '8409bcf3-ffb0-4e78-a269-daef9ab4e214.mp3',
@@ -30,13 +30,7 @@
     'e5ebef74-17fb-49d7-881a-b337435266ca': 'e5ebef74-17fb-49d7-881a-b337435266ca.mp3',
     'e7fd4033-a1bb-4055-85ae-c814e047d3c1': 'e7fd4033-a1bb-4055-85ae-c814e047d3c1.mp3'
   };
-  const substitutions = {
-    '1cadffbf-f43b-4ae4-8bcf-122f31eb9a85': 'One Lonely Guy (Remix)',
-    '564e4cde-7f50-44b6-a226-653d9a62eb91': 'A Lonely Borg Guy',
-    '6ecabe44-8bc0-4513-ab59-d6454d07150b': "Orion's Baby Daddy (1.21x)",
-    '8952118d-423d-48d6-b78f-2921fb658a8c': 'Men in Flight — Rockabilly Circuit Jive',
-    'd5f091a3-642f-4c12-aa86-53972acba91a': 'Men in Flight — Cyber Sax Transmission'
-  };
+  const substitutions = {};
   const context = canvas.getContext('2d');
   let audioContext;
   let analyser;

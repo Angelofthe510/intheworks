@@ -25,7 +25,7 @@ Listening pass: August 20, 2026.
 | Multiverse | A Lonely Disco Guy | A Lonely Disco Guy | 4:23 | Disco source | https://suno.com/song/1cadffbf-f43b-4ae4-8bcf-122f31eb9a85 |
 | Opera source | A Lonely Guy Dance | A Lonely Guy Dance | 4:04 | Vocal/loop source | https://suno.com/song/0454d711-c82f-408e-bcd4-b30da14a9fb1 |
 | Air guitar | One Lonely Guy [1974 Rock Version] | One Lonely Guy [1974 Rock version] | 3:29 | Performance source; cover direction: monochrome weathered stone arches inspired by “old ruins in italy” | https://suno.com/song/85398936-f25a-47c4-b0e3-7e9f7c1f5d1a |
-| Men in Flight | Men in Flight — Dance Wave 1 | Men in Flight — Dance | 2:37 | New-wave selection | https://suno.com/song/8952118d-423d-48d6-b78f-2921fb658a8c |
+| Men in Flight | Men in Flight — Circuit Cut | Men in Flight — Dance Wave 1 | 3:00 | Primary short standalone; 7:33 Rockabilly Circuit Jive retained for A Lonely Opera | https://suno.com/song/8952118d-423d-48d6-b78f-2921fb658a8c |
 | Unassigned | I Am All of Me | I Am All of Me | 2:53 | Role pending | https://suno.com/song/8409bcf3-ffb0-4e78-a269-daef9ab4e214 |
 | Unassigned | A Golden Heart | A Golden Heart | 3:22 | Selective-edit source | https://suno.com/song/253819ed-ce37-4820-8a76-a1adb37825be |
 
