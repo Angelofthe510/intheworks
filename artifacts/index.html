@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catalogue of Angel Rittenburg's artifacts: weekly lab and project updates, and interactive project pages.">
+  <title>Artifacts | Angel's Project List</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .cat-shell { width: min(1200px, calc(100% - 44px)); margin: 0 auto; padding-bottom: 110px; }
+    .cat-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .cat-nav a { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); text-decoration: none; font-weight: 700; font-size: .85rem; letter-spacing: .06em; }
+    .cat-nav a:hover { border-color: var(--blue); }
+    .cat-nav span { color: var(--muted); font-weight: 600; margin-left: 6px; }
+
+    .shelf { margin-top: 64px; }
+    .shelf-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+    .shelf-head h2 { margin: 0; font-size: clamp(1.8rem, 3.6vw, 2.8rem); letter-spacing: -.03em; }
+    .shelf-head p { margin: 0; color: var(--muted); max-width: 640px; }
+    .shelf-count { color: var(--orange); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
+
+    .empty { padding: 28px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--panel); }
+    .empty h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .empty p { margin: 0; color: var(--muted); }
+    .empty ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
+
+    .items { display: grid; gap: 22px; }
+    .item { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 24px; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .item img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; background: #000; }
+    .item h3 { margin: 2px 0 4px; font-size: 1.35rem; letter-spacing: -.01em; }
+    .meta { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; }
+    .tags li { padding: 4px 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); font-size: .76rem; font-weight: 700; letter-spacing: .04em; }
+    .tags li.type { color: var(--paper); background: var(--blue); border-color: var(--blue); }
+    .inside { margin: 0 0 14px; padding-left: 18px; color: var(--ink); font-size: .95rem; }
+    .inside li { margin-bottom: 4px; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .links a { padding: 8px 14px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); text-decoration: none; font-weight: 700; font-size: .85rem; }
+    .links a:hover { border-color: var(--blue); }
+    .status { font-size: .78rem; color: var(--orange); font-weight: 700; letter-spacing: .06em; }
+
+    @media (max-width: 760px) {
+      .item { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">1 of many</a>
+    <span class="header-note">Artifacts</span>
+  </header>
+
+  <main class="cat-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow"><a href="../index.html" style="text-decoration:none">← Project list</a> · 04</p>
+      <h1 id="page-title">Artifacts</h1>
+      <p class="intro">A catalogue of the interactive pages built from my class decks and project files, plus weekly lab and project updates.</p>
+      <nav class="cat-nav" aria-label="Sections">
+        <a href="#weeklies">Weeklies<span>0</span></a>
+        <a href="#projects">Projects<span>6</span></a>
+      </nav>
+    </section>
+
+    <section class="shelf" id="weeklies" aria-labelledby="weeklies-title">
+      <div class="shelf-head">
+        <h2 id="weeklies-title">Weeklies</h2>
+        <p>Lab work, weekly updates and project updates: short check-ins that show work in progress.</p>
+        <span class="shelf-count">None yet</span>
+      </div>
+      <div class="empty">
+        <h3>Nothing here yet</h3>
+        <p>Weekly entries will be listed here as they're published. Each one will show the date, the class or project, and what changed that week.</p>
+        <ul>
+          <li>Lab work and exercises</li>
+          <li>Weekly updates</li>
+          <li>Project updates</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shelf" id="projects" aria-labelledby="projects-title">
+      <div class="shelf-head">
+        <h2 id="projects-title">Projects</h2>
+        <p>Finished class projects rebuilt as museum-style pages: a swipe gallery, the assignment, references, and a downloadable PDF of the original deck.</p>
+        <span class="shelf-count">6 pages</span>
+      </div>
+
+      <div class="items">
+        <article class="item">
+          <img src="img/portfolio.jpg" alt="The BCC student portfolio page with Ollie the Owl" loading="lazy">
+          <div>
+            <h3>BCC Student Portfolio</h3>
+            <p class="meta">Berkeley City College · Multimedia Arts · 2021–2022</p>
+            <ul class="tags"><li class="type">Portfolio</li><li>11 galleries</li><li>BCC brand</li></ul>
+            <ul class="inside">
+              <li>Every class as a numbered gallery with framed, matted thumbnails</li>
+              <li>3D modeling, Photoshop, motion graphics, video, typography, game design and web design</li>
+              <li>Independent Cinema 4D studies and clubs</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/bcc.html">Open the portfolio ↗</a></div>
+          </div>
+        </article>
+
+        <article class="item">
+          <img src="img/turntable.jpg" alt="Cinema 4D vintage turntable surrounded by album covers" loading="lazy">
+          <div>
+            <h3>My Vintage Turntable: "White Rabbit" Revisited</h3>
+            <p class="meta">Fall 2022 final · MMDI 4 Photoshop, MMVI 20A Video Editing, MMWW 1A Web Design · seeded in MMAN 40A</p>
+            <ul class="tags"><li class="type">Multi-class final</li><li>Video</li><li>Social media</li><li>3 PDFs</li></ul>
+            <ul class="inside">
+              <li>Animated turntable hero and the final video mash-up</li>
+              <li>Behind the scenes in Cinema 4D, Photoshop, Illustrator, Premiere Pro and After Effects</li>
+              <li>The Grace Slick inspiration story, the Lara Croft origin, and Dave Archer the mentor</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/whiterabbit.html">Open the page ↗</a></div>
+            <p class="status">Upload pending</p>
+          </div>
+        </article>
+
+        <article class="item">
+          <img src="img/lara.jpg" alt="Lara Croft: A Magical Journey title slide with a paper airplane in the clouds" loading="lazy">
+          <div>
+            <h3>Lara Croft: A Magical Journey</h3>
+            <p class="meta">MMAN 40A Intro to Game Design · Professor Phil Campbell · Summer 2021</p>
+            <ul class="tags"><li class="type">Game design</li><li>Pitch deck</li><li>PDF</li></ul>
+            <ul class="inside">
+              <li>An expansion module in five stages, from a magical red piano to a "White Rabbit" reveal</li>
+              <li>Eight slides, the full game story, and notes on how the song shaped the levels</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/lara.html">Open the page ↗</a></div>
+            <p class="status">Upload pending</p>
+          </div>
+        </article>
+
+        <article class="item">
+          <img src="img/room.jpg" alt="Cinema 4D render of an opulent drawing room" loading="lazy">
+          <div>
+            <h3>My Very Expensive Room</h3>
+            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
+            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
+            <ul class="inside">
+              <li>Five renders of a luxury interior modeled on Doughty House, London</li>
+              <li>Factoids for each view, a reference-to-render comparison, and free sources</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/room.html">Open the page ↗</a></div>
+          </div>
+        </article>
+
+        <article class="item">
+          <img src="img/train.jpg" alt="Cinema 4D render of a black and gold steam locomotive in the desert" loading="lazy">
+          <div>
+            <h3>My Train</h3>
+            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
+            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
+            <ul class="inside">
+              <li>A locomotive and two supporting cars on a desert line by the Maxon City Train Depot</li>
+              <li>Nine renders and the reference images from TurboSquid</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/train.html">Open the page ↗</a></div>
+          </div>
+        </article>
+
+        <article class="item">
+          <img src="img/spaceship.jpg" alt="Cinema 4D interface showing a particle explosion setup" loading="lazy">
+          <div>
+            <h3>My Spaceship</h3>
+            <p class="meta">MMDI 515A Intro to 3D Modeling (free non-credit class) · Michel Bohbot · Fall 2022</p>
+            <ul class="tags"><li class="type">3D modeling</li><li>Primitives only</li><li>Animation</li><li>PDF</li></ul>
+            <ul class="inside">
+              <li>A starship built only from primitive shapes, with a particle explosion</li>
+              <li>The Cinema 4D interface, three renders, the construction plans, and the YouTube animation</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/spaceship.html">Open the page ↗</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>Angel’s Project Archive</span><span>Artifacts grow as the work does.</span></footer>
+</body>
+</html>
