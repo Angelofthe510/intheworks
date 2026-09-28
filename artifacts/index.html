@@ -39,7 +39,17 @@
     .links a:hover { border-color: var(--blue); }
     .status { font-size: .78rem; color: var(--orange); font-weight: 700; letter-spacing: .06em; }
 
+    .weeklies { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+    .weekly { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 24px; padding: 20px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .weekly h3 { margin: 2px 0 4px; font-size: 1.35rem; }
+    .w-date { display: flex; flex-direction: column; align-items: center; justify-content: center; align-self: start; padding: 14px 8px; border-radius: 16px; background: var(--panel-2); border: 1px solid var(--line); text-align: center; line-height: 1.1; }
+    .w-mon { color: var(--orange); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; }
+    .w-day { font-size: 2.4rem; font-weight: 800; letter-spacing: -.03em; }
+    .w-yr { color: var(--muted); font-size: .85rem; font-weight: 700; }
     @media (max-width: 760px) {
+      .weekly { grid-template-columns: minmax(0, 1fr); }
+      .w-date { flex-direction: row; gap: 8px; justify-self: start; padding: 8px 14px; }
+      .w-day { font-size: 1.4rem; }
       .item { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
@@ -56,7 +66,7 @@
       <h1 id="page-title">Artifacts</h1>
       <p class="intro">A catalogue of the interactive pages built from my class decks and project files, plus weekly lab and project updates.</p>
       <nav class="cat-nav" aria-label="Sections">
-        <a href="#weeklies">Weeklies<span>0</span></a>
+        <a href="#weeklies">Weeklies<span>1</span></a>
         <a href="#projects">Projects<span>6</span></a>
       </nav>
     </section>
@@ -64,25 +74,34 @@
     <section class="shelf" id="weeklies" aria-labelledby="weeklies-title">
       <div class="shelf-head">
         <h2 id="weeklies-title">Weeklies</h2>
-        <p>Lab work, weekly updates and project updates: short check-ins that show work in progress.</p>
-        <span class="shelf-count">None yet</span>
+        <p>Lab work, weekly updates and project updates: short check-ins that show work in progress, in date order.</p>
+        <span class="shelf-count">1 entry · oldest first</span>
       </div>
-      <div class="empty">
-        <h3>Nothing here yet</h3>
-        <p>Weekly entries will be listed here as they're published. Each one will show the date, the class or project, and what changed that week.</p>
-        <ul>
-          <li>Lab work and exercises</li>
-          <li>Weekly updates</li>
-          <li>Project updates</li>
-        </ul>
-      </div>
+      <ol class="weeklies">
+        <li class="weekly">
+          <time class="w-date" datetime="2024-11-24"><span class="w-mon">Nov</span><span class="w-day">24</span><span class="w-yr">2024</span></time>
+          <div>
+            <h3>"Yesterday's Son" update</h3>
+            <p class="meta">MMAN 20A · From Wednesday's Animation Club/lab · Sunday, November 24, 2024</p>
+            <ul class="tags"><li class="type">Lab</li><li>Yesterday's Son</li><li>AI video</li><li>After Effects</li></ul>
+            <ul class="inside">
+              <li><b>This week's lesson:</b> AI can take more time to use than good ol' After Effects.</li>
+              <li>Tried Hailuo AI image-to-video for a cartoon shot, "ship approaches slo-mo rotating planet," using two images for two angles.</li>
+              <li>The easy way: old-school cel animation. Screenshots from the Animated Series, ship PNGs in Photoshop, space and planet PNGs plus a gradient-strip planet surface in Illustrator, then every piece stacked and animated as rectangles in After Effects.</li>
+              <li>Bonus: a surprise "recreate" prompt turned an existing image of a bearded Vulcan into a short clip.</li>
+              <li>Seven playable clips: four AI tries, two After Effects renders, and the Vulcan.</li>
+            </ul>
+            <div class="links"><a href="weeklies/2024-11-24/index.html">Open the update →</a><a href="weeklies/2024-11-24/media/Yesterdays-Son-Update-2024-11-24-Rittenburg.pdf">PDF</a></div>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <section class="shelf" id="projects" aria-labelledby="projects-title">
       <div class="shelf-head">
         <h2 id="projects-title">Projects</h2>
-        <p>Finished class projects rebuilt as museum-style pages: a swipe gallery, the assignment, references, and a downloadable PDF of the original deck.</p>
-        <span class="shelf-count">6 pages</span>
+        <p>Finished class projects rebuilt as museum-style pages: a swipe gallery, the assignment, references, and a downloadable PDF of the original deck. The portfolio comes first, then projects in the order they were made.</p>
+        <span class="shelf-count">6 pages · oldest first</span>
       </div>
 
       <div class="items">
@@ -91,7 +110,7 @@
           <div>
             <h3>BCC Student Portfolio</h3>
             <p class="meta">Berkeley City College · Multimedia Arts · 2021–2022</p>
-            <ul class="tags"><li class="type">Portfolio</li><li>11 galleries</li><li>BCC brand</li></ul>
+            <ul class="tags"><li class="type">Start here</li><li>Portfolio</li><li>11 galleries</li><li>BCC brand</li></ul>
             <ul class="inside">
               <li>Every class as a numbered gallery with framed, matted thumbnails</li>
               <li>3D modeling, Photoshop, motion graphics, video, typography, game design and web design</li>
@@ -100,23 +119,32 @@
             <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/bcc.html">Open the portfolio ↗</a></div>
           </div>
         </article>
-
         <article class="item">
-          <img src="img/turntable.jpg" alt="Cinema 4D vintage turntable surrounded by album covers" loading="lazy">
+          <img src="img/room.jpg" alt="Cinema 4D render of an opulent drawing room" loading="lazy">
           <div>
-            <h3>My Vintage Turntable: "White Rabbit" Revisited</h3>
-            <p class="meta">Fall 2022 final · MMDI 4 Photoshop, MMVI 20A Video Editing, MMWW 1A Web Design · seeded in MMAN 40A</p>
-            <ul class="tags"><li class="type">Multi-class final</li><li>Video</li><li>Social media</li><li>3 PDFs</li></ul>
+            <h3>My Very Expensive Room</h3>
+            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
+            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
             <ul class="inside">
-              <li>Animated turntable hero and the final video mash-up</li>
-              <li>Behind the scenes in Cinema 4D, Photoshop, Illustrator, Premiere Pro and After Effects</li>
-              <li>The Grace Slick inspiration story, the Lara Croft origin, and Dave Archer the mentor</li>
+              <li>Five renders of a luxury interior modeled on Doughty House, London</li>
+              <li>Factoids for each view, a reference-to-render comparison, and free sources</li>
             </ul>
-            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/whiterabbit.html">Open the page ↗</a></div>
-            <p class="status">Upload pending</p>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/room.html">Open the page ↗</a></div>
           </div>
         </article>
-
+        <article class="item">
+          <img src="img/train.jpg" alt="Cinema 4D render of a black and gold steam locomotive in the desert" loading="lazy">
+          <div>
+            <h3>My Train</h3>
+            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
+            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
+            <ul class="inside">
+              <li>A locomotive and two supporting cars on a desert line by the Maxon City Train Depot</li>
+              <li>Nine renders and the reference images from TurboSquid</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/train.html">Open the page ↗</a></div>
+          </div>
+        </article>
         <article class="item">
           <img src="img/lara.jpg" alt="Lara Croft: A Magical Journey title slide with a paper airplane in the clouds" loading="lazy">
           <div>
@@ -131,35 +159,6 @@
             <p class="status">Upload pending</p>
           </div>
         </article>
-
-        <article class="item">
-          <img src="img/room.jpg" alt="Cinema 4D render of an opulent drawing room" loading="lazy">
-          <div>
-            <h3>My Very Expensive Room</h3>
-            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
-            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
-            <ul class="inside">
-              <li>Five renders of a luxury interior modeled on Doughty House, London</li>
-              <li>Factoids for each view, a reference-to-render comparison, and free sources</li>
-            </ul>
-            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/room.html">Open the page ↗</a></div>
-          </div>
-        </article>
-
-        <article class="item">
-          <img src="img/train.jpg" alt="Cinema 4D render of a black and gold steam locomotive in the desert" loading="lazy">
-          <div>
-            <h3>My Train</h3>
-            <p class="meta">MMDI 15A Intro to 3D Modeling · Michel Bohbot · Spring 2021</p>
-            <ul class="tags"><li class="type">3D modeling</li><li>Cinema 4D</li><li>PDF</li></ul>
-            <ul class="inside">
-              <li>A locomotive and two supporting cars on a desert line by the Maxon City Train Depot</li>
-              <li>Nine renders and the reference images from TurboSquid</li>
-            </ul>
-            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/train.html">Open the page ↗</a></div>
-          </div>
-        </article>
-
         <article class="item">
           <img src="img/spaceship.jpg" alt="Cinema 4D interface showing a particle explosion setup" loading="lazy">
           <div>
@@ -171,6 +170,21 @@
               <li>The Cinema 4D interface, three renders, the construction plans, and the YouTube animation</li>
             </ul>
             <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/spaceship.html">Open the page ↗</a></div>
+          </div>
+        </article>
+        <article class="item">
+          <img src="img/turntable.jpg" alt="Cinema 4D vintage turntable surrounded by album covers" loading="lazy">
+          <div>
+            <h3>My Vintage Turntable: "White Rabbit" Revisited</h3>
+            <p class="meta">Fall 2022 final · MMDI 4 Photoshop, MMVI 20A Video Editing, MMWW 1A Web Design · seeded in MMAN 40A</p>
+            <ul class="tags"><li class="type">Multi-class final</li><li>Video</li><li>Social media</li><li>3 PDFs</li></ul>
+            <ul class="inside">
+              <li>Animated turntable hero and the final video mash-up</li>
+              <li>Behind the scenes in Cinema 4D, Photoshop, Illustrator, Premiere Pro and After Effects</li>
+              <li>The Grace Slick inspiration story, the Lara Croft origin, and Dave Archer the mentor</li>
+            </ul>
+            <div class="links"><a href="https://angelofthe510.github.io/bcc/bcc/whiterabbit.html">Open the page ↗</a></div>
+            <p class="status">Upload pending</p>
           </div>
         </article>
       </div>
