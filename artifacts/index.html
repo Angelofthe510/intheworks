@@ -52,6 +52,152 @@
       .w-day { font-size: 1.4rem; }
       .item { grid-template-columns: minmax(0, 1fr); }
     }
+    /* 2026-09-30: MMAN 550 Week 4–5 Artifact visual system */
+    :root {
+      --bg: #d9d9d9;
+      --paper: #f2f2f2;
+      --panel: #f2f2f2;
+      --panel-2: #ffffff;
+      --ink: #141414;
+      --muted: #606060;
+      --line: #2a2a2a;
+      --blue: #000000;
+      --orange: #000000;
+      --radius: 12px;
+      --shadow: 3px 3px 4px rgba(0,0,0,.10);
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.75), transparent 28%),
+        linear-gradient(180deg, #cfcfcf 0%, #e2e2e2 100%);
+    }
+
+    .site-header {
+      background: #111;
+      color: #f2f2f2;
+      border-bottom: 2px solid #111;
+    }
+    .site-header a,
+    .site-header .header-note { color: #f2f2f2; }
+
+    .hero {
+      margin-top: 32px;
+      padding: clamp(24px, 4vw, 52px);
+      background: var(--paper);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 3px 3px 4px rgba(0,0,0,.14);
+    }
+    .hero .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 7px 12px;
+      background: #000;
+      color: #f2f2f2;
+      border-radius: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .hero .eyebrow a { color: #f2f2f2; }
+    .hero .intro { color: #444; }
+
+    .cat-nav a {
+      padding: 8px 14px;
+      border: 2px solid #000;
+      border-radius: 12px;
+      background: #000;
+      color: #f2f2f2;
+      box-shadow: none;
+    }
+    .cat-nav a:hover {
+      background: #f2f2f2;
+      color: #111;
+      border-color: #111;
+    }
+    .cat-nav a span { color: inherit; }
+
+    .shelf-head {
+      border-bottom: 2px solid var(--line);
+    }
+    .shelf-count {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #000;
+      color: #f2f2f2;
+      border-radius: 12px;
+    }
+
+    .empty,
+    .item,
+    .weekly {
+      background: var(--paper);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 3px 3px 4px rgba(0,0,0,.10);
+    }
+
+    .item img {
+      border: 2px solid #111;
+      border-radius: 12px;
+      box-shadow: 3px 3px 4px rgba(0,0,0,.12);
+    }
+
+    .tags li {
+      background: #e8e8e8;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+    }
+    .tags li.type {
+      color: #f2f2f2;
+      background: #000;
+      border-color: #000;
+    }
+
+    .links a {
+      padding: 8px 14px;
+      border: 2px solid #000;
+      border-radius: 12px;
+      background: #000;
+      color: #f2f2f2;
+    }
+    .links a:hover {
+      background: #f2f2f2;
+      color: #111;
+      border-color: #111;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 9px;
+      background: #e8e8e8;
+      color: #111;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .w-date {
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 3px 3px 4px rgba(0,0,0,.08);
+    }
+    .w-mon { color: #111; }
+
+    footer {
+      background: #111;
+      color: #eee;
+      border-top: 2px solid #111;
+    }
+
+    @media (max-width: 760px) {
+      .cat-shell { width: min(100% - 20px, 1200px); }
+      .hero { margin-top: 18px; }
+    }
+
   </style>
 </head>
 <body>
